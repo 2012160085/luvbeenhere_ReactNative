@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as MediaLibrary from "expo-media-library";
 import styled from "styled-components/native";
 import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
+import dbscan from "@cdxoo/dbscan";
 import {
   FlatList,
   Image,
@@ -190,17 +191,13 @@ export default function SelectPhoto({ navigation }) {
   return (
     <Container>
       <StatusBar hidden={false} />
-
       <Top>
-        <Text style={{ color: "white", fontSize: 10, backgroundColor: "black" }}>
-          {test}
-        </Text>
-        {/* {chosenPhoto !== "" ? (
+        {chosenPhoto !== "" ? (
           <Image
             source={{ uri: chosenPhoto?.uri }}
             style={{ width, height: "100%" }}
           />
-        ) : null} */}
+        ) : null}
       </Top>
       <MiddleMenu>
         <LocationContainer>
