@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as MediaLibrary from "expo-media-library";
 import styled from "styled-components/native";
 import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
+import dbscan from "@cdxoo/dbscan";
 import {
   FlatList,
   Image,
@@ -146,6 +147,11 @@ export default function SelectPhoto({ navigation }) {
     </TouchableOpacity>
   );
   useEffect(() => {
+    let simpleResult = dbscan({
+      dataset: [21, 22, 23, 24, 27, 28, 29, 30, 9001],
+      epsilon: 1.01,
+    });
+    console.log(simpleResult);
     getPermissions();
   }, []);
   useEffect(() => {
