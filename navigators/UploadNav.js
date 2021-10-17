@@ -29,6 +29,7 @@ export default function UploadNav() {
         {() => (
           <Stack.Navigator
             screenOptions={{
+              headerShown: false,
               headerTintColor: "white",
               headerBackTitleVisible: false,
               headerBackImage: ({ tintColor }) => (
@@ -38,7 +39,6 @@ export default function UploadNav() {
                 backgroundColor: "black",
                 shadowOpacity: 0.3,
               },
-              
             }}
           >
             <Stack.Screen

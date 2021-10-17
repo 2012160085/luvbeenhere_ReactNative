@@ -147,11 +147,6 @@ export default function SelectPhoto({ navigation }) {
     </TouchableOpacity>
   );
   useEffect(() => {
-    let simpleResult = dbscan({
-      dataset: [21, 22, 23, 24, 27, 28, 29, 30, 9001],
-      epsilon: 1.01,
-    });
-    console.log(simpleResult);
     getPermissions();
   }, []);
   useEffect(() => {
@@ -196,17 +191,13 @@ export default function SelectPhoto({ navigation }) {
   return (
     <Container>
       <StatusBar hidden={false} />
-
       <Top>
-        <Text style={{ color: "white", fontSize: 10, backgroundColor: "black" }}>
-          {test}
-        </Text>
-        {/* {chosenPhoto !== "" ? (
+        {chosenPhoto !== "" ? (
           <Image
             source={{ uri: chosenPhoto?.uri }}
             style={{ width, height: "100%" }}
           />
-        ) : null} */}
+        ) : null}
       </Top>
       <MiddleMenu>
         <LocationContainer>
