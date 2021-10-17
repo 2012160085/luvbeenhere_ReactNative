@@ -12,7 +12,8 @@ import { FEED_PHOTO } from "../fragments";
 
 
 export default function UploadForm({ route, navigation }) {
-
+  console.log("------------");
+  console.log(route);
   return (
     <View><Text>Upload screen</Text></View>
   );
