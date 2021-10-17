@@ -14,6 +14,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { colors } from "../colors";
+import { fontSet } from "../fonts";
 
 const Container = styled.View`
   flex: 1;
@@ -27,7 +28,7 @@ const Top = styled.View`
 
 const Bottom = styled.View`
   flex: 1;
-  background-color: black;
+  background-color: white;
 `;
 
 const ImageContainer = styled.TouchableOpacity``;
@@ -46,7 +47,8 @@ const HeaderRightText = styled.Text`
   color: ${colors.blue};
   font-size: 16px;
   font-weight: 600;
-  margin-right: 7px;
+  margin-right: 19px;
+  font-family: ${fontSet.Medium}
 `;
 const MiddleMenu = styled.View`
   height: 50px;
@@ -60,6 +62,10 @@ const MiddleMenu = styled.View`
   padding-right: 10px;
 `;
 const LocationContainer = styled.View``;
+const LocationText = styled.Text`
+  font-family: Pretendard-SemiBold;
+  font-size : 15px;
+`;
 const MultiModeContainer = styled.TouchableOpacity`
   background-color: rgba(0, 0, 0, 0.3);
   height: 35px;
@@ -71,6 +77,8 @@ const MultiModeContainer = styled.TouchableOpacity`
   padding-right: 10px;
 `;
 const MultiModeText = styled.Text`
+font-family: Pretendard-SemiBold;
+
   color: white;
 `;
 const NumberOnIconView = styled.View`
@@ -90,19 +98,24 @@ export default function SelectPhoto({ navigation }) {
   const [ok, setOk] = useState(false);
   const [test, setTest] = useState("");
   const [photos, setPhotos] = useState([]);
-  const [selPhotos, setSelPhotos] = useState([]);
+  const [multiChosenPhoto, setMultiChosenPhoto] = useState([]);
   const [chosenPhoto, setChosenPhoto] = useState("");
   const [multiSelect, setMultiSelect] = useState(false);
+  const [photoUriToRender, setPhotoUriToRender] = useState("");
   const changeSelectMode = () => {
+    if (multiSelect) {
+      setChosenPhoto(multiChosenPhoto[0]);
+    }
     setMultiSelect(!multiSelect);
   };
   const getPhotos = async () => {
     const { assets: photos } = await MediaLibrary.getAssetsAsync({
-      first: 100,
+      first: 30,
       sortBy: ["creationTime"],
     });
     setPhotos(photos);
     setChosenPhoto(photos[0]);
+    setMultiChosenPhoto([photos[0]]);
   };
   const getPermissions = async () => {
     if (Platform.OS === "ios") {
@@ -143,7 +156,7 @@ export default function SelectPhoto({ navigation }) {
         })
       }
     >
-      <HeaderRightText>Next</HeaderRightText>
+      <HeaderRightText>다음</HeaderRightText>
     </TouchableOpacity>
   );
   useEffect(() => {
@@ -153,41 +166,50 @@ export default function SelectPhoto({ navigation }) {
     navigation.setOptions({
       headerRight: HeaderRight,
     });
-  }, [chosenPhoto, selPhotos]);
+  }, [chosenPhoto, multiChosenPhoto]);
 
   const numColumns = 4;
   const { width } = useWindowDimensions();
   const choosePhoto = async (photo) => {
-    setChosenPhoto(photo);
-    console.log(photo.id);
-    const info = await MediaLibrary.getAssetInfoAsync(photo.id);
-    console.log(info);
-    setTest(JSON.stringify(info));
+    if (!multiSelect) {
+      setChosenPhoto(photo);
+      setMultiChosenPhoto([photo])
+    } else {
+      if (!multiChosenPhoto.includes(photo)) {
+        setMultiChosenPhoto([...multiChosenPhoto, photo]);
+      } else {
+        setMultiChosenPhoto(multiChosenPhoto.filter((e) => e !== photo))
+      }
+    }
   };
-  const renderItem = ({ item: photo }) => (
-    <ImageContainer onPress={() => choosePhoto(photo)}>
-      <Image
-        source={{ uri: photo.uri }}
-        style={{ width: width / numColumns, height: width / numColumns }}
-      />
-      {!multiSelect ? (
-        <IconContainer>
-          <Ionicons
-            name="checkmark-circle"
-            size={18}
-            color={photo === chosenPhoto ? colors.blue : "white"}
-          />
-        </IconContainer>
-      ) : (
-        <OrderIconContainer>
-          <Badge
-            value="1"
-            badgeStyle={{ borderWidth: 0, backgroundColor: colors.blue }}
-          />
-        </OrderIconContainer>
-      )}
-    </ImageContainer>
-  );
+  const renderItem = ({ item: photo }) => {
+    const photoIndex = multiSelect ? multiChosenPhoto.indexOf(photo) : -1;
+    return (
+      <ImageContainer onPress={() => choosePhoto(photo)}>
+        <Image
+          source={{ uri: photo.uri }}
+          style={{ width: width / numColumns, height: width / numColumns }}
+        />
+        {!multiSelect ? (
+          <IconContainer>
+            <Ionicons
+              name="checkmark-circle"
+              size={20}
+              color={photo === chosenPhoto ? colors.blue : "white"}
+            />
+          </IconContainer>
+        ) : (
+
+          <OrderIconContainer>
+            <Badge
+              value={photoIndex >= 0 ? (photoIndex + 1).toString() : " "}
+              badgeStyle={{ borderWidth: 0, backgroundColor: photoIndex >= 0 ? colors.blue : "white" }}
+            />
+          </OrderIconContainer>
+        )}
+      </ImageContainer>
+    );
+  }
   return (
     <Container>
       <StatusBar hidden={false} />
@@ -201,7 +223,7 @@ export default function SelectPhoto({ navigation }) {
       </Top>
       <MiddleMenu>
         <LocationContainer>
-          <Text>""</Text>
+          <LocationText>서울시 노원구 섬밭로</LocationText>
         </LocationContainer>
         <MultiModeContainer onPress={changeSelectMode}>
           <Ionicons

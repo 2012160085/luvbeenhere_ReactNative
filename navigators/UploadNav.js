@@ -5,6 +5,10 @@ import SelectPhoto from "../screens/SelectPhoto";
 
 
 import { createStackNavigator } from "@react-navigation/stack";
+import { Text } from "react-native";
+import { fontSet } from "../fonts";
+import { colors } from "../colors";
+import UploadForm from "../screens/UploadForm";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -15,41 +19,50 @@ export default function UploadNav() {
     <Tab.Navigator
       tabBarPosition="bottom"
       screenOptions={{
-        "tabBarActiveTintColor": "white",
+        tabBarLabelStyle: {
+          fontFamily: fontSet.Regular
+        },
+        "tabBarActiveTintColor": "tomato",
         "tabBarIndicatorStyle": {
           "backgroundColor": "white",
           "top": 0
         },
         "tabBarStyle": {
-          "backgroundColor": "black"
+          "backgroundColor": "white",
         }
       }}
     >
-      <Tab.Screen name="SelectTab">
+      <Tab.Screen name="직접 업로드">
         {() => (
           <Stack.Navigator
             screenOptions={{
-              headerShown: false,
-              headerTintColor: "white",
+              headerTintColor: "black",
               headerBackTitleVisible: false,
               headerBackImage: ({ tintColor }) => (
-                <Ionicons color={tintColor} name="close" size={28} />
-              ),
+               null
+              )
+              ,
               headerStyle: {
-                backgroundColor: "black",
+                backgroundColor: "white",
                 shadowOpacity: 0.3,
               },
+              headerTitleStyle: {
+                fontFamily: fontSet.Medium,
+                fontSize: 18
+                
+              }
             }}
           >
             <Stack.Screen
               name="Select"
-              options={{ title: "Choose a photo" }}
+              options={{ title: "업로드 사진 선택" , headerTitleAlign : "center" }}
               component={SelectPhoto}
             />
           </Stack.Navigator>
         )}
       </Tab.Screen>
-      <Tab.Screen name="TEST" component={SelectPhoto} />
+      <Tab.Screen name="간편 업로드" component={SelectPhoto} />
+
     </Tab.Navigator>
   );
 }
