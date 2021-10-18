@@ -125,7 +125,6 @@ export default function SelectPhoto({ navigation }) {
     if (Platform.OS === "ios") {
       const { accessPrivileges, canAskAgain } =
         await MediaLibrary.getPermissionsAsync();
-
       if (accessPrivileges === "none" && canAskAgain) {
         const { accessPrivileges } =
           await MediaLibrary.requestPermissionsAsync();
@@ -185,6 +184,7 @@ export default function SelectPhoto({ navigation }) {
         setShowingPhoto(photo);
       } else if (multiChosenPhoto.includes(photo) && showingPhoto !== photo) {
         setShowingPhoto(photo);
+      } else if (multiChosenPhoto.length <= 1) {
       } else if (multiChosenPhoto.includes(photo) && showingPhoto === photo) {
         const newPhotos = multiChosenPhoto.filter((e) => e !== photo);
         setShowingPhoto(newPhotos[newPhotos.length - 1]);
@@ -194,6 +194,7 @@ export default function SelectPhoto({ navigation }) {
       }
     }
   };
+
   const renderItem = ({ item: photo }) => {
     const photoIndex = multiSelect ? multiChosenPhoto.indexOf(photo) : -1;
     const selected = multiSelect ? photoIndex >= 0 : chosenPhoto === photo;
