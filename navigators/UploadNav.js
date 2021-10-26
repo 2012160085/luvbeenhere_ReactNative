@@ -39,7 +39,7 @@ export default function UploadNav() {
               headerTintColor: "black",
               headerBackTitleVisible: false,
               headerBackImage: ({ tintColor }) => (
-               null
+                null
               )
               ,
               headerStyle: {
@@ -49,20 +49,28 @@ export default function UploadNav() {
               headerTitleStyle: {
                 fontFamily: fontSet.Medium,
                 fontSize: 18
-                
+
               }
             }}
           >
             <Stack.Screen
               name="Select"
-              options={{ title: "업로드 사진 선택" , headerTitleAlign : "center" }}
+              options={{ title: "업로드 사진 선택", headerTitleAlign: "center" }}
               component={SelectPhoto}
+            />
+            <Stack.Screen
+              name="UploadForm"
+              options={{
+                title: "업로드",
+                headerTitleAlign: "center",
+
+              }}
+              component={UploadForm}
             />
           </Stack.Navigator>
         )}
       </Tab.Screen>
-      <Tab.Screen name="간편 업로드" component={SelectPhoto} />
-
+      <Tab.Screen name="UploadDetail" options={{ title: "업로드", headerTitleAlign: "center" }} component={SelectPhoto} />
     </Tab.Navigator>
   );
 }

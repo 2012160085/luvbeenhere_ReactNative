@@ -19,6 +19,7 @@ import { colors } from "../colors";
 import { fontSet } from "../fonts";
 import PhotoSelectItem from "../components/PhotoSelectItem";
 
+
 const Container = styled.View`
   flex: 1;
   background-color: black;
@@ -99,7 +100,6 @@ const NumberOnIconText = styled.Text`
 `;
 export default function SelectPhoto({ navigation }) {
   const [ok, setOk] = useState(false);
-  const [test, setTest] = useState("");
   const [photos, setPhotos] = useState([]);
   const [multiChosenPhoto, setMultiChosenPhoto] = useState([]);
   const [chosenPhoto, setChosenPhoto] = useState("");
@@ -111,11 +111,13 @@ export default function SelectPhoto({ navigation }) {
     }
     setMultiSelect(!multiSelect);
   };
+
   const getPhotos = async () => {
     const { assets: photos } = await MediaLibrary.getAssetsAsync({
-      first: 30,
+      first: 20,
       sortBy: ["creationTime"],
     });
+
     setPhotos(photos);
     setChosenPhoto(photos[0]);
     setMultiChosenPhoto([photos[0]]);
@@ -153,11 +155,15 @@ export default function SelectPhoto({ navigation }) {
   };
   const HeaderRight = () => (
     <TouchableOpacity
-      onPress={() =>
+      onPress={async () => {
+        const files = multiSelect ? multiChosenPhoto : [chosenPhoto];
+        const filesWithInfo = await Promise.all(
+          files.map((file) => MediaLibrary.getAssetInfoAsync(file.id))
+        );
         navigation.navigate("UploadForm", {
-          file: multiSelect ? multiChosenPhoto : [chosenPhoto],
-        })
-      }
+          file: filesWithInfo,
+        });
+      }}
     >
       <HeaderRightText>다음</HeaderRightText>
     </TouchableOpacity>

@@ -1,19 +1,10 @@
 import React, {
   forwardRef,
   useImperativeHandle,
-  useRef,
   useState,
 } from "react";
-import { gql, useMutation } from "@apollo/client";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import AuthButton from "../components/auth/AuthButton";
-import AuthLayout from "../components/auth/AuthLayout";
-import { PhoneInput, TextInput } from "../components/auth/AuthShared";
 import styled from "styled-components";
-import { colors } from "../colors";
-import SendButton from "../components/auth/SendButton";
-import Spacer from "../components/Spacer";
 
 const Container = styled.View`
   position: absolute;

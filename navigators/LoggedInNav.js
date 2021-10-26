@@ -24,21 +24,7 @@ export default function LoggedInNav() {
         options={{ headerShown: false }}
         component={UploadNav}
       />
-      <Stack.Screen
-        name="UploadForm"
-        options={{
-          headerBackTitleVisible: false, 
-          headerBackImage: ({ tintColor }) => (
-            <Ionicons color={tintColor} name="close" size={28} />
-          ),
-          title: "Upload",
-          headerTintColor: "white",
-          headerStyle: {
-            backgroundColor: "white",
-          },
-        }}
-        component={UploadForm}
-      />
+
     </Stack.Navigator>
   );
 }
