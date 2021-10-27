@@ -1,11 +1,8 @@
 import React from "react";
 
 import ScreenLayout from "../components/ScreenLayout";
+import DateDetail from "./DateDetail";
 
 export default function Feed() {
-  return (
-    <ScreenLayout>
-      <Text>feed screen</Text>
-    </ScreenLayout>
-  );
+  return <DateDetail />;
 }

@@ -62,16 +62,12 @@ const SEE_DATE = gql`
     }
   }
 `;
-export default function DateDetail({ route: { params } }) {
-  const { data, loading, refetch, fetchMore } = useQuery(SEE_DATE, {
-    variables: {
-      id: params?.dateId,
-    },
-  });
-  console.log(data);
-  return (
-    <ScreenLayout loading={loading}>
-      <DateCover />
-    </ScreenLayout>
-  );
+export default function DateDetail() {
+  // const { data, loading, refetch, fetchMore } = useQuery(SEE_DATE, {
+  //   variables: {
+  //     id: params?.dateId,
+  //   },
+  // });
+  //console.log(data);
+  return <DateCover />;
 }
