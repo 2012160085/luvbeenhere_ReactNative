@@ -26,9 +26,10 @@ export default function SharedStackNav({ screenName }) {
           shadowColor: "rgba(255, 255, 255, 0.3)",
           backgroundColor: "white",
         },
-        options:{
+        options: {
 
-        }
+        },
+        headerShown: true
       }}
     >
       {screenName === "Map" ? (
@@ -50,7 +51,7 @@ export default function SharedStackNav({ screenName }) {
         />
       ) : null}
       {screenName === "Feed" ? (
-        <Stack.Screen name={"Feed"} component={Feed} />
+        <Stack.Screen name={"Feed"} component={Feed} options={{ headerShown: true }} />
       ) : null}
       {screenName === "Search" ? (
         <Stack.Screen name={"Search"} component={Search} />

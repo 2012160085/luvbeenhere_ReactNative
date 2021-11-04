@@ -34,7 +34,6 @@ export default function App() {
       },
       { "Pretendard-Thin": require("./assets/fonts/Pretendard-Thin.otf") },
     ];
-    fontsToLoad.map((font) => console.log(font));
     const fontPromises = fontsToLoad.map((font) => Font.loadAsync(font));
     const imagesToLoad = [require("./assets/logo.png")];
     const imagePromises = imagesToLoad.map((image) => Asset.loadAsync(image));

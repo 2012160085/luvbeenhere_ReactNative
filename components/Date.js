@@ -104,7 +104,6 @@ function Date({ data }) {
       accHeights[i] = contentHeights[i] + accHeights[i - 1];
     }
     setAcctHeights(accHeights);
-    console.log(accHeights);
   };
   const [watching, setWatching] = useState(-1);
   const [navItemWidth, setNavItemWidth] = useState(0.5);
@@ -149,7 +148,6 @@ function Date({ data }) {
             sliderWidth={winDim.width}
             itemWidth={winDim.width * navItemWidth}
             onSnapToItem={(e) => {
-              console.log(e);
               setWatching(e);
               scrollRef.current.scrollTo({
                 x: 0,

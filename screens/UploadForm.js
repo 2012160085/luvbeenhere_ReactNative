@@ -378,10 +378,10 @@ export default function UploadForm({ route, navigation }) {
   const onCompleted = (e) => {
     console.log(e);
     if (e.createVisit.ok) {
-      navigation.navigate("DateDetail", {
-        visitId: e.createVisit.visitId,
-        dateId: e.createVisit.dateId,
-      });
+      // navigation.navigate("DateDetail", {
+      //   visitId: e.createVisit.visitId,
+      //   dateId: e.createVisit.dateId,
+      // });
     } else {
     }
   };

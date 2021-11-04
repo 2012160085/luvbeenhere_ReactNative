@@ -13,6 +13,7 @@ export default function TabsNav() {
     <Tabs.Navigator
       screenOptions={
         {
+          headerShown: false,
           "tabBarActiveTintColor": "rgba(228, 86, 103, 1)",
           "tabBarShowLabel": false,
           "tabBarStyle": [
@@ -25,8 +26,11 @@ export default function TabsNav() {
             shadowColor: "rgba(228, 86, 103, 1)",
             shadowOffset: 1
           }
+          
         }
+        
       }
+      
     >
       <Tabs.Screen
         name="MapTab"

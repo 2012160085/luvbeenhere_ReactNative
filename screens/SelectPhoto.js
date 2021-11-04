@@ -114,7 +114,7 @@ export default function SelectPhoto({ navigation }) {
 
   const getPhotos = async () => {
     const { assets: photos } = await MediaLibrary.getAssetsAsync({
-      first: 20,
+      first: 140,
       sortBy: ["creationTime"],
     });
 
