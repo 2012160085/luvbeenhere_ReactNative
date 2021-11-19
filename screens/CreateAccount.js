@@ -36,7 +36,7 @@ export default function CreateAccount({ route: { params }, navigation }) {
       createAccount: { ok },
     } = data;
     const { username, password, name } = getValues();
-    console.log(data);
+
     if (ok) {
       navigation.dispatch(
         StackActions.replace("LogIn", {
@@ -62,9 +62,7 @@ export default function CreateAccount({ route: { params }, navigation }) {
 
   const onValid = (data) => {
     if (!loading) {
-      console.log("___________");
-      console.log(data);
-      console.log(params);
+
       createAccountMutation({
         variables: {
           name: data.name,
@@ -78,8 +76,7 @@ export default function CreateAccount({ route: { params }, navigation }) {
   };
 
   useEffect(() => {
-    console.log("from phoneverify");
-    console.log(params);
+
     register("username", {
       required: true,
     });

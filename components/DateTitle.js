@@ -14,7 +14,10 @@ import Timeline from "./Timeline";
 import IconRating from "./IconRating";
 import { LinearGradient } from 'expo-linear-gradient';
 import { ts2DateStr } from "../util/DateHandle";
-const Container = styled.View``;
+const Container = styled.View`
+  padding-vertical: 20px;
+  background-color: #f8f8fa;
+`;
 const TitleView = styled.View`
   display: flex;
   width: 100%;
@@ -49,7 +52,6 @@ const DateTitle = ({ data }) => {
   const rates =  data.visits.filter((visit) => visit.rating);
   const sumRate = rates.map((validRateVisit) => validRateVisit.rating.value).reduce((a, b) => a + b)
   const meanRate = Math.round(sumRate/rates.length);
-  console.log(`meanRate${meanRate}`);
   return (
     <Container>
       <TitleView>

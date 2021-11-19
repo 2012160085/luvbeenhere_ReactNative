@@ -11,17 +11,19 @@ export default function TabsNav() {
   //const { data } = useMe();
   return (
     <Tabs.Navigator
+    
       screenOptions={
         {
           headerShown: false,
-          "tabBarActiveTintColor": "rgba(228, 86, 103, 1)",
-          "tabBarShowLabel": false,
-          "tabBarStyle": [
+          tabBarActiveTintColor: "rgba(228, 86, 103, 1)",
+          tabBarShowLabel: false,
+          tabBarStyle: [
             {
-              "display": "flex"
+              display: "flex"
             },
             null
           ],
+
           headerStyle: {
             shadowColor: "rgba(228, 86, 103, 1)",
             shadowOffset: 1

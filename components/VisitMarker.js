@@ -59,7 +59,7 @@ const VisitMarker = ({ text, iconName, count }) => {
           </View>
         ) : null}
       </TextContainer>
-      <Ionicons name={"caret-down-sharp"} color={"#fec1bb"} size={20} />
+      <Ionicons name={"caret-down-sharp"} color={"#fec1bb"} size={20} style={{marginBottom:-8}}/>
     </Container>
   );
 };

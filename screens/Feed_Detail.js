@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from "react";
-import { RefreshControl, StyleSheet, Text, useWindowDimensions, View } from "react-native";
-import { FlatList, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import Swiper from "react-native-swiper";
 import DateCover from "../components/DateCover";
 import { gql, useQuery } from "@apollo/client";
@@ -8,26 +8,58 @@ import ScreenLayout from "../components/ScreenLayout";
 import VisitDetail from "../components/VisitDetail";
 import DateDetail from "./DateDetail";
 import DateReport from "../components/DateReport";
-import DateFeed from "../components/DateFeed";
-const SEE_DATES = gql`
-  query($skip:Int!,$take:Int!){
-    seeDates(skip: $skip, take: $take){
+const SEE_DATE = gql`
+  query ($id: Int!) {
+    seeDate(id: $id) {
       id
       name
       datetime
-      visits{
+      visits {
+        id
         name
+        place {
+          id
+          name
+          posX
+          posY
+        }
+        photos {
+          id
+          posX
+          posY
+          file
+          datetime
+        }
+        rating {
+          id
+          value
+        }
         posX
         posY
-        photos{
-          file
-        }
+        comment
       }
-      couple{
+      couple {
         id
+        user {
+          id
+          name
+          username
+          phone
+          avatar
+          createdAt
+          updatedAt
+        }
       }
       posX
       posY
+      tag {
+        id
+        name
+      }
+      weatherTag {
+        id
+        name
+      }
       price
       isMine
     }
@@ -59,32 +91,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-const renderItem = ({ item }) => {
-
-  return <DateFeed data={item}></DateFeed>
-}
 export default function Feed() {
   const screen = useWindowDimensions();
-  const { data, loading, refetch } = useQuery(SEE_DATES, {
+  const [contentStyle, setContentStyle] = useState({});
+  const { data, loading, refetch } = useQuery(SEE_DATE, {
     variables: {
-      take: 5,
-      skip: 0
+      id: 5,
     },
     fetchPolicy: "network-only"
   });
 
-  const [refreshing, setRefreshing] = React.useState(false);
-  const onRefresh = useCallback(async () => {
-
-
-  });
   return (
-    loading ? null :
-      <FlatList
-        renderItem={renderItem}
-        data={data.seeDates}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      />
-
+    <DateDetail data={data} loading={loading}/>
   );
 }

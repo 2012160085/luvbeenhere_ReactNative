@@ -352,7 +352,7 @@ export default function UploadForm({ route, navigation }) {
           isPublic,
           photoPosts,
         };
-        console.log(variables);
+
 
         createVisit({
           variables,
@@ -376,7 +376,6 @@ export default function UploadForm({ route, navigation }) {
       : [...route.params.file].reverse();
   const screen = useWindowDimensions();
   const onCompleted = (e) => {
-    console.log(e);
     if (e.createVisit.ok) {
       // navigation.navigate("DateDetail", {
       //   visitId: e.createVisit.visitId,

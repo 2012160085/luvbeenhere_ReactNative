@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Image, View } from "react-native";
 import {
+  FlatList,
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
@@ -24,10 +25,9 @@ import { ts2DateStr } from "../util/DateHandle";
 const carouselSize = 0.9;
 
 const Container = styled.View`
-  height: 100%;
   width: ${(props) => props.width}px;
   background-color: #f8f8fa;
-  display: flex;
+
 `;
 const CommentText = styled.Text`
   font-family: ${fontSet.Medium}
@@ -70,10 +70,9 @@ const VisitDetail = ({ data }) => {
   const minTime = Math.min(...data.photos.map((e) => {
     return e.datetime
   }));
-  console.log(data);
   return (
     <Container width={screen.width}>
-      <View style={{ flex: 1 }}>
+      <View style={{ height: 350 }}>
         <ImageBottomView>
           <MaterialCommunityIcons name={"clock-time-one-outline"}>
             <ImageInfoText>{ts2DateStr(minTime, "hm")}</ImageInfoText>
@@ -82,25 +81,27 @@ const VisitDetail = ({ data }) => {
             <ImageInfoText>서울시 노원구 공릉동</ImageInfoText>
           </Ionicons>
         </ImageBottomView>
-        <ScrollView
+        <FlatList
           horizontal={true}
           snapToInterval={screen.width}
           decelerationRate="fast"
           overScrollMode="never"
+          nestedScrollEnabled={true}
+          data={data.photos}
+          renderItem={({item}) => {
+            return <Image
+              key={item.id}
+              style={{
+                width: screen.width,
+                height: screen.width,
+              }}
+              resizeMode="cover"
+              source={{ uri: item.file }}
+            />
+          }}
         >
-          {data.photos.map((photo) => (
-            <View key={photo.id}>
-              <Image
-                style={{
-                  width: screen.width,
-                  height: screen.width,
-                }}
-                resizeMode="cover"
-                source={{ uri: photo.file }}
-              />
-            </View>
-          ))}
-        </ScrollView>
+
+        </FlatList>
       </View>
       <View
         style={{

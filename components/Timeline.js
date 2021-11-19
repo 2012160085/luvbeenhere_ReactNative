@@ -24,6 +24,7 @@ const ContentBubble = styled.TouchableOpacity`
   elevation: 2;
 `;
 const Container = styled.View`
+  background-color:#f8f8fa;
 `;
 const ElementView = styled.View`
   display: flex;

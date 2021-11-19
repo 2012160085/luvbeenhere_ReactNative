@@ -20,8 +20,7 @@ import { useWindowDimensions } from "react-native";
 import VisitMarker from "./VisitMarker";
 
 const Container = styled.View`
-  height: 100%;
-  width: ${(props) => props.width}px;
+  height: 100%
   background-color: #f8f8fa;
   display: flex;
 `;
@@ -72,14 +71,10 @@ const DateReport = () => {
   const screen = useWindowDimensions();
 
   return (
-    <Container width={screen.width}>
-      <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
-          <Ionicons name="map-outline" size={16}>지도</Ionicons>
 
-        </View>
       <MapView
         initialRegion={INITIAL_REGION}
-        style={{ flex: 1, marginHorizontal: 20, marginTop: 10, marginBottom: 20 }}
+        style={{ height: 200, marginHorizontal: 20, marginTop: 10, marginBottom: 20 }}
         moveOnMarkerPress={false}
         pitchEnabled={false}
         scrollEnabled={false}
@@ -98,29 +93,7 @@ const DateReport = () => {
           );
         })}
       </MapView>
-      <View style={{ flex: 2 }} >
-      <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
-          <Ionicons name="time-outline" size={16}>시간</Ionicons>
-          <Text>2시간</Text>
-        </View>
-        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
-          <Ionicons name="walk-outline" size={16}>이동거리</Ionicons>
-          <Text>12km</Text>
-        </View>
-        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
-          <Ionicons name="md-medical-outline" size={16}>평균별점</Ionicons>
-          <Text>2.4점</Text>
-        </View>
-        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
-          <Ionicons name="partly-sunny-outline" size={16}>날씨</Ionicons>
-          <Text>맑음, 14C</Text>
-        </View>
-        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
-          <Ionicons name="pricetag-outline" size={16}>태그</Ionicons>
-        </View>
-      </View>
-
-    </Container>
+     
   );
 };
 export default DateReport;

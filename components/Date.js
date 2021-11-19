@@ -38,7 +38,6 @@ function Date({ data }) {
     const y = e.nativeEvent.contentOffset.y;
     
     if (watching >= 0 && y < accHeights[watching]) {
-      console.log("set watching" + (watching - 1));
       navScrollRef.current.snapToItem(watching - 1, true, false);
       if (watching - 1 === -1) {
         setShow(true);
@@ -51,7 +50,6 @@ function Date({ data }) {
       data.seeDate.visits.length > watching &&
       y >= accHeights[watching + 1]
     ) {
-      console.log("set watching" + (watching + 1));
       navScrollRef.current.snapToItem(watching + 1, true, false);
       setWatching(watching + 1);
       if (watching + 1 === 0) {

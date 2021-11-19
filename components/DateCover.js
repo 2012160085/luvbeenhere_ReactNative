@@ -13,24 +13,29 @@ import { fontSet } from "../fonts";
 import Timeline from "./Timeline";
 import DateTitle from "./DateTitle";
 import { LinearGradient } from "expo-linear-gradient";
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const Container = styled.View`
-  height: 100%;
+  display: flex;
+  height: ${(props) => props.height}px;
   width: ${(props) => props.width}px;
   background-color: #f8f8fa;
+  
 `;
 const DateTitleView = styled.View`
   padding-top: 10%;
   padding-bottom: 10%;
 `;
-const DateCover = ({data, onItemClick}) => {
+const DateCover = ({ data, onItemClick }) => {
   const screen = useWindowDimensions();
+  const tabBarHeight = useBottomTabBarHeight();
+
   return (
-    <Container width={screen.width}>
+    <Container width={screen.width} height={screen.height - tabBarHeight} >
       <DateTitleView>
         <DateTitle data={data}></DateTitle>
       </DateTitleView>
-      <ScrollView>
+      <ScrollView nestedScrollEnabled={true}>
         <Timeline data={data.visits} onItemClick={onItemClick}></Timeline>
       </ScrollView>
     </Container>

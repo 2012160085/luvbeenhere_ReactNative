@@ -112,8 +112,6 @@ const CommentText = styled.Text`
 `;
 const EditContainer = styled.TouchableOpacity``;
 const renderItem = ({ item, index }, screen) => {
-  console.log(item);
-  console.log(`render ${item.uri}`);
   return (
     <View style={{ height: screen.width * 0.8 + 20 }}>
       <Image

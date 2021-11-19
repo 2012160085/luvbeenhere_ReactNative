@@ -15,7 +15,7 @@ import DateDetail from "../screens/DateDetail";
 const Stack = createStackNavigator();
 
 export default function SharedStackNav({ screenName }) {
-  console.log(screenName);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -51,7 +51,11 @@ export default function SharedStackNav({ screenName }) {
         />
       ) : null}
       {screenName === "Feed" ? (
-        <Stack.Screen name={"Feed"} component={Feed} options={{ headerShown: true }} />
+        <Stack.Screen name={"Feed"} component={Feed} options={
+          {
+            headerShown: false
+          }
+        } />
       ) : null}
       {screenName === "Search" ? (
         <Stack.Screen name={"Search"} component={Search} />
