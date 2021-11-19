@@ -11,9 +11,14 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   useWindowDimensions,
+  View,
 } from "react-native";
 import { colors } from "../colors";
+import { fontSet } from "../fonts";
+import PhotoSelectItem from "../components/PhotoSelectItem";
+
 
 const Container = styled.View`
   flex: 1;
@@ -22,15 +27,15 @@ const Container = styled.View`
 
 const Top = styled.View`
   flex: 1;
-  background-color: black;
+  background-color: white;
 `;
 
 const Bottom = styled.View`
   flex: 1;
-  background-color: black;
+  background-color: white;
 `;
 
-const ImageContainer = styled.TouchableOpacity``;
+const ImageContainer = styled.TouchableWithoutFeedback``;
 const IconContainer = styled.View`
   position: absolute;
   bottom: 3px;
@@ -46,7 +51,8 @@ const HeaderRightText = styled.Text`
   color: ${colors.blue};
   font-size: 16px;
   font-weight: 600;
-  margin-right: 7px;
+  margin-right: 19px;
+  font-family: ${fontSet.Medium};
 `;
 const MiddleMenu = styled.View`
   height: 50px;
@@ -60,6 +66,10 @@ const MiddleMenu = styled.View`
   padding-right: 10px;
 `;
 const LocationContainer = styled.View``;
+const LocationText = styled.Text`
+  font-family: Pretendard-SemiBold;
+  font-size: 15px;
+`;
 const MultiModeContainer = styled.TouchableOpacity`
   background-color: rgba(0, 0, 0, 0.3);
   height: 35px;
@@ -71,6 +81,8 @@ const MultiModeContainer = styled.TouchableOpacity`
   padding-right: 10px;
 `;
 const MultiModeText = styled.Text`
+  font-family: Pretendard-SemiBold;
+
   color: white;
 `;
 const NumberOnIconView = styled.View`
@@ -88,27 +100,33 @@ const NumberOnIconText = styled.Text`
 `;
 export default function SelectPhoto({ navigation }) {
   const [ok, setOk] = useState(false);
-  const [test, setTest] = useState("");
   const [photos, setPhotos] = useState([]);
-  const [selPhotos, setSelPhotos] = useState([]);
+  const [multiChosenPhoto, setMultiChosenPhoto] = useState([]);
   const [chosenPhoto, setChosenPhoto] = useState("");
   const [multiSelect, setMultiSelect] = useState(false);
+  const [showingPhoto, setShowingPhoto] = useState("");
   const changeSelectMode = () => {
+    if (multiSelect) {
+      setChosenPhoto(multiChosenPhoto[0]);
+    }
     setMultiSelect(!multiSelect);
   };
+
   const getPhotos = async () => {
     const { assets: photos } = await MediaLibrary.getAssetsAsync({
-      first: 100,
+      first: 140,
       sortBy: ["creationTime"],
     });
+
     setPhotos(photos);
     setChosenPhoto(photos[0]);
+    setMultiChosenPhoto([photos[0]]);
+    setShowingPhoto(photos[0]);
   };
   const getPermissions = async () => {
     if (Platform.OS === "ios") {
       const { accessPrivileges, canAskAgain } =
         await MediaLibrary.getPermissionsAsync();
-
       if (accessPrivileges === "none" && canAskAgain) {
         const { accessPrivileges } =
           await MediaLibrary.requestPermissionsAsync();
@@ -137,13 +155,17 @@ export default function SelectPhoto({ navigation }) {
   };
   const HeaderRight = () => (
     <TouchableOpacity
-      onPress={() =>
+      onPress={async () => {
+        const files = multiSelect ? multiChosenPhoto : [chosenPhoto];
+        const filesWithInfo = await Promise.all(
+          files.map((file) => MediaLibrary.getAssetInfoAsync(file.id))
+        );
         navigation.navigate("UploadForm", {
-          file: chosenPhoto,
-        })
-      }
+          file: filesWithInfo,
+        });
+      }}
     >
-      <HeaderRightText>Next</HeaderRightText>
+      <HeaderRightText>다음</HeaderRightText>
     </TouchableOpacity>
   );
   useEffect(() => {
@@ -153,55 +175,62 @@ export default function SelectPhoto({ navigation }) {
     navigation.setOptions({
       headerRight: HeaderRight,
     });
-  }, [chosenPhoto, selPhotos]);
+  }, [chosenPhoto, multiChosenPhoto]);
 
   const numColumns = 4;
   const { width } = useWindowDimensions();
   const choosePhoto = async (photo) => {
-    setChosenPhoto(photo);
-    console.log(photo.id);
-    const info = await MediaLibrary.getAssetInfoAsync(photo.id);
-    console.log(info);
-    setTest(JSON.stringify(info));
+    if (!multiSelect) {
+      setChosenPhoto(photo);
+      setMultiChosenPhoto([photo]);
+      setShowingPhoto(photo);
+    } else {
+      if (!multiChosenPhoto.includes(photo)) {
+        setMultiChosenPhoto([...multiChosenPhoto, photo]);
+        setShowingPhoto(photo);
+      } else if (multiChosenPhoto.includes(photo) && showingPhoto !== photo) {
+        setShowingPhoto(photo);
+      } else if (multiChosenPhoto.length <= 1) {
+      } else if (multiChosenPhoto.includes(photo) && showingPhoto === photo) {
+        const newPhotos = multiChosenPhoto.filter((e) => e !== photo);
+        setShowingPhoto(newPhotos[newPhotos.length - 1]);
+        setMultiChosenPhoto(newPhotos);
+      } else {
+        setMultiChosenPhoto(multiChosenPhoto.filter((e) => e !== photo));
+      }
+    }
   };
-  const renderItem = ({ item: photo }) => (
-    <ImageContainer onPress={() => choosePhoto(photo)}>
-      <Image
-        source={{ uri: photo.uri }}
+
+  const renderItem = ({ item: photo }) => {
+    const photoIndex = multiSelect ? multiChosenPhoto.indexOf(photo) : -1;
+    const selected = multiSelect ? photoIndex >= 0 : chosenPhoto === photo;
+    const showing = showingPhoto === photo;
+    return (
+      <PhotoSelectItem
+        photo={photo}
+        onPress={() => choosePhoto(photo)}
         style={{ width: width / numColumns, height: width / numColumns }}
+        multiSelect={multiSelect}
+        selected={selected}
+        order={photoIndex}
+        showing={showing}
       />
-      {!multiSelect ? (
-        <IconContainer>
-          <Ionicons
-            name="checkmark-circle"
-            size={18}
-            color={photo === chosenPhoto ? colors.blue : "white"}
-          />
-        </IconContainer>
-      ) : (
-        <OrderIconContainer>
-          <Badge
-            value="1"
-            badgeStyle={{ borderWidth: 0, backgroundColor: colors.blue }}
-          />
-        </OrderIconContainer>
-      )}
-    </ImageContainer>
-  );
+    );
+  };
   return (
     <Container>
       <StatusBar hidden={false} />
       <Top>
-        {chosenPhoto !== "" ? (
+        {showingPhoto ? (
           <Image
-            source={{ uri: chosenPhoto?.uri }}
+            source={{ uri: showingPhoto?.uri }}
             style={{ width, height: "100%" }}
           />
         ) : null}
       </Top>
       <MiddleMenu>
         <LocationContainer>
-          <Text>""</Text>
+          <LocationText>서울시 노원구 섬밭로</LocationText>
         </LocationContainer>
         <MultiModeContainer onPress={changeSelectMode}>
           <Ionicons

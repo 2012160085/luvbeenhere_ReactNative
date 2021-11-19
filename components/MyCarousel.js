@@ -31,7 +31,7 @@ function Slide({ data }) {
 }
 
 function MyCarousel() {
-  console.log(slideList);
+
   const flatListOptimizationProps = {
     initialNumToRender: 0,
     maxToRenderPerBatch: 1,

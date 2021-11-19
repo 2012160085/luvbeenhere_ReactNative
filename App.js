@@ -10,6 +10,7 @@ import client, { isLoggedInVar, tokenVar, cache } from "./apollo";
 import LoggedInNav from "./navigators/LoggedInNav";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AsyncStorageWrapper, persistCache } from "apollo3-cache-persist";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,6 @@ export default function App() {
       },
       { "Pretendard-Thin": require("./assets/fonts/Pretendard-Thin.otf") },
     ];
-    fontsToLoad.map((font) => console.log(font));
     const fontPromises = fontsToLoad.map((font) => Font.loadAsync(font));
     const imagesToLoad = [require("./assets/logo.png")];
     const imagePromises = imagesToLoad.map((image) => Asset.loadAsync(image));
@@ -63,9 +63,11 @@ export default function App() {
   }
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer>
-        {isLoggedIn ? <LoggedInNav /> : <LoggedOutNav />}
-      </NavigationContainer>
+      <SafeAreaView style={{ flex: 1 }}>
+        <NavigationContainer>
+          {isLoggedIn ? <LoggedInNav /> : <LoggedOutNav />}
+        </NavigationContainer>
+      </SafeAreaView>
     </ApolloProvider>
   );
 }

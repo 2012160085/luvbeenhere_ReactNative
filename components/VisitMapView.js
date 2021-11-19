@@ -42,9 +42,7 @@ const VisitMapView = ({ initialRegion, data, loading }) => {
   const onPressCluster = (e, markers, zoom) => {
     const coord = e.nativeEvent.coordinate;
     const visitIds = markers.map((marker) => marker.properties.data.id);
-    console.log(coord);
-    console.log(visitIds);
-    console.log(zoom);
+
     animateToRegion(coord);
   };
   const onPressMarker = (e, visitId) => {
@@ -62,6 +60,7 @@ const VisitMapView = ({ initialRegion, data, loading }) => {
       {loading
         ? null
         : data.seeVisits.map((visit) => {
+            console.log(visit);
             return (
               <Marker
                 key={visit.id}

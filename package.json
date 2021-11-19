@@ -1,7 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --port 8025",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -22,6 +22,7 @@
     "expo": "~43.0.0-beta.3",
     "expo-app-loading": "^1.2.0",
     "expo-image-manipulator": "^10.1.1",
+    "expo-linear-gradient": "~10.0.3",
     "expo-media-library": "^13.0.2",
     "expo-status-bar": "~1.1.0",
     "graphql": "^15.6.1",
@@ -31,14 +32,19 @@
     "react-native": "0.64.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-map-clustering": "^3.4.2",
-    "react-native-maps": "^0.28.0",
+    "react-native-maps": "^0.27.1",
     "react-native-pager-view": "^5.4.6",
+    "react-native-progress": "^5.0.0",
     "react-native-safe-area-context": "^3.3.2",
-    "react-native-snap-carousel": "^3.9.1",
+    "react-native-snap-carousel": "^4.0.0-beta.6",
+    "react-native-step-indicator": "^1.0.3",
+    "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.1",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "toggle-switch-react-native": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

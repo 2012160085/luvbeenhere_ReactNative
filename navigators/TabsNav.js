@@ -11,23 +11,33 @@ export default function TabsNav() {
   //const { data } = useMe();
   return (
     <Tabs.Navigator
+    
       screenOptions={
         {
-          "tabBarActiveTintColor": "rgba(228, 86, 103, 1)",
-          "tabBarShowLabel": false,
-          "tabBarStyle": [
+          headerShown: false,
+          tabBarActiveTintColor: "rgba(228, 86, 103, 1)",
+          tabBarShowLabel: false,
+          tabBarStyle: [
             {
-              "display": "flex"
+              display: "flex"
             },
             null
-          ]
+          ],
+
+          headerStyle: {
+            shadowColor: "rgba(228, 86, 103, 1)",
+            shadowOffset: 1
+          }
+          
         }
+        
       }
+      
     >
       <Tabs.Screen
         name="MapTab"
         options={{
-          headerShown : false,
+          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName={"md-map"} color={color} focused={focused} />
           ),

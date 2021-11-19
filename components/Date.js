@@ -38,7 +38,6 @@ function Date({ data }) {
     const y = e.nativeEvent.contentOffset.y;
     
     if (watching >= 0 && y < accHeights[watching]) {
-      console.log("set watching" + (watching - 1));
       navScrollRef.current.snapToItem(watching - 1, true, false);
       if (watching - 1 === -1) {
         setShow(true);
@@ -51,7 +50,6 @@ function Date({ data }) {
       data.seeDate.visits.length > watching &&
       y >= accHeights[watching + 1]
     ) {
-      console.log("set watching" + (watching + 1));
       navScrollRef.current.snapToItem(watching + 1, true, false);
       setWatching(watching + 1);
       if (watching + 1 === 0) {
@@ -104,7 +102,6 @@ function Date({ data }) {
       accHeights[i] = contentHeights[i] + accHeights[i - 1];
     }
     setAcctHeights(accHeights);
-    console.log(accHeights);
   };
   const [watching, setWatching] = useState(-1);
   const [navItemWidth, setNavItemWidth] = useState(0.5);
@@ -149,7 +146,6 @@ function Date({ data }) {
             sliderWidth={winDim.width}
             itemWidth={winDim.width * navItemWidth}
             onSnapToItem={(e) => {
-              console.log(e);
               setWatching(e);
               scrollRef.current.scrollTo({
                 x: 0,

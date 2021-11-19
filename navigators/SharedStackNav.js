@@ -10,11 +10,12 @@ import MyProfile from "../screens/MyProfile";
 import { Image } from "react-native";
 import Likes from "../screens/Likes";
 import Comments from "../screens/Comments";
+import DateDetail from "../screens/DateDetail";
 
 const Stack = createStackNavigator();
 
 export default function SharedStackNav({ screenName }) {
-  console.log(screenName);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -25,9 +26,10 @@ export default function SharedStackNav({ screenName }) {
           shadowColor: "rgba(255, 255, 255, 0.3)",
           backgroundColor: "white",
         },
-        options:{
+        options: {
 
-        }
+        },
+        headerShown: true
       }}
     >
       {screenName === "Map" ? (
@@ -49,7 +51,11 @@ export default function SharedStackNav({ screenName }) {
         />
       ) : null}
       {screenName === "Feed" ? (
-        <Stack.Screen name={"Feed"} component={Feed} />
+        <Stack.Screen name={"Feed"} component={Feed} options={
+          {
+            headerShown: false
+          }
+        } />
       ) : null}
       {screenName === "Search" ? (
         <Stack.Screen name={"Search"} component={Search} />
@@ -59,6 +65,7 @@ export default function SharedStackNav({ screenName }) {
       <Stack.Screen name="Photo" component={Photo} />
       <Stack.Screen name="Likes" component={Likes} />
       <Stack.Screen name="Comments" component={Comments} />
+      <Stack.Screen name="DateDetail" component={DateDetail} />
     </Stack.Navigator>
   );
 }

@@ -28,7 +28,7 @@ export const logUserOut = async () => {
 };
 
 const uploadHttpLink = createUploadLink({
-  uri: "http://192.168.123.100:4000/graphql",
+  uri: "http://luvbeenhere.com:54000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

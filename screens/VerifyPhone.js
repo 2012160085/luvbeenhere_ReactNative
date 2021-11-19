@@ -83,7 +83,6 @@ export default function CreateAccount({ navigation }) {
       setSentSMS(true);
     }else{
       setErrorCode(error);
-      console.log(codeTable[error]);
     }
   };
 
@@ -109,7 +108,6 @@ export default function CreateAccount({ navigation }) {
           );
         } else {
           setErrorCode(error);
-          console.log(codeTable[error]);
         }
       },
     }
