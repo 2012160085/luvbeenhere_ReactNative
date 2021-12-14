@@ -116,7 +116,6 @@ export default function SelectPhoto({ navigation }) {
       first: 140,
       sortBy: ["creationTime"],
     });
-
     setPhotos(photos);
     setChosenPhoto(photos[0]);
     setMultiChosenPhoto([photos[0]]);
@@ -179,8 +178,8 @@ export default function SelectPhoto({ navigation }) {
   const numColumns = 4;
   const { width } = useWindowDimensions();
   const choosePhoto = async (photo) => {
-      console.log("__________________PHOHOHO");
-      console.log(photo);
+    console.log("__________________PHOHOHO");
+    console.log(photo);
     if (!multiSelect) {
       setChosenPhoto(photo);
       setMultiChosenPhoto([photo]);

@@ -8,6 +8,7 @@ import VisitMarker from "../components/VisitMarker";
 import { gql, useQuery } from "@apollo/client";
 import VisitMapView from "../components/VisitMapView";
 import { uploadPromise } from "../global";
+import jDBSCAN from "../util/PhotoCluster";
 
 
 const SEE_VISITS = gql`
@@ -47,7 +48,33 @@ const App = () => {
     },
     fetchPolicy: "cache-and-network"
   });
-
+  var time_gps_data = [
+    {
+      location: {
+        accuracy: 30,
+        latitude: 55.7858667,
+        longitude: 12.5233995
+      },
+      timestamp: 1349958445
+    },
+    {
+      location: {
+        accuracy: 10,
+        latitude: 45.4238667,
+        longitude: 12.5233995
+      },
+      timestamp: 123958445
+    },
+    {
+      location: {
+        accuracy: 5,
+        latitude: 25.3438667,
+        longitude: 11.6533995
+      },
+      timestamp: 1350958445
+    }
+  ];
+ 
   return (
     <VisitMapView
       initialRegion={INITIAL_REGION}

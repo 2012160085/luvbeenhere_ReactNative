@@ -9,6 +9,7 @@ import { Text } from "react-native";
 import { fontSet } from "../fonts";
 import { colors } from "../colors";
 import UploadForm from "../screens/UploadForm";
+import HandyUpload from "../screens/HandyUpload";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -70,7 +71,7 @@ export default function UploadNav() {
           </Stack.Navigator>
         )}
       </Tab.Screen>
-      <Tab.Screen name="UploadDetail" options={{ title: "업로드", headerTitleAlign: "center" }} component={SelectPhoto} />
+      <Tab.Screen name="UploadDetail" options={{ title: "업로드", headerTitleAlign: "center" }} component={HandyUpload} />
     </Tab.Navigator>
   );
 }
