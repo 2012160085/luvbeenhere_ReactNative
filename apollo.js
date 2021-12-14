@@ -9,11 +9,12 @@ import { setContext } from "@apollo/client/link/context";
 import { offsetLimitPagination } from "@apollo/client/utilities";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createUploadLink } from "apollo-upload-client";
+import { Platform } from "react-native";
 
 export const isLoggedInVar = makeVar(false);
 export const tokenVar = makeVar("");
 
-const TOKEN = "token";
+export const TOKEN = "token";
 
 export const logUserIn = async (token) => {
   await AsyncStorage.setItem(TOKEN, token);
@@ -28,7 +29,7 @@ export const logUserOut = async () => {
 };
 
 const uploadHttpLink = createUploadLink({
-  uri: "http://luvbeenhere.com:54000/graphql",
+  uri: Platform.OS === "android" ? "http://luvbeenhere.com:54000/graphql" : "http://192.168.123.101:54000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

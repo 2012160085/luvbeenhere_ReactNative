@@ -1,34 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import MapView from "react-native-map-clustering";
-import {
-  Marker,
-  AnimatedRegion,
-  Animated,
-  Polyline,
-  Polygon,
-} from "react-native-maps";
-
-import {
-  Image,
-  ScrollView,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import VisitMarker from "./VisitMarker";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image, Text, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 import { fontSet } from "../fonts";
+import IconRating from "./IconRating";
+import { Ionicons } from "@expo/vector-icons";
+import { GetThumbURI } from "../util/ThumbnailURI";
 
 const Container = styled.View`
   background-color: white;
-  border-width: 1px;
+  margin-vertical: 5px;
+  elevation: 2;
 `;
 const Head = styled.View`
-  border-width: 1px;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 35px;
 `;
 const Title = styled.Text`
   font-family: ${fontSet.Medium};
@@ -43,40 +30,91 @@ const ImageDesc = styled.Text`
   font-size: 16px;
   color: white;
   padding-horizontal: 5px;
-  padding-vertical: 2px; 
+  padding-vertical: 2px;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.3);
 `;
-const Body = styled.View`
-  height: 150px;
+const Body = styled.TouchableOpacity`
+  height: 250px;
   background-color: white;
-  border-bottom-width: 1px;
 `;
 const Tail = styled.View`
-  height: 40px;
   background-color: white;
-  border-bottom-width: 1px;
 `;
-const DateFeed = ({ data }) => {
+const Info = styled.View`
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+`;
+
+const DateFeed = ({ data, route, navigation }) => {
   console.log(data);
+  const onPress = () => {
+    console.log(data.id);
+    console.log(route);
+    console.log(navigation);
+
+    navigation.navigate("Detail", {
+      screen: "DateDetail",
+      params: {
+        visitId: -1,
+        id: data.id,
+      },
+    });
+  };
+  console.log(":::::::::::::::::::::::::::::::::::::::::::::::::::");
+  console.log(data);
+  const representImage = data.visits[0].photos[0].file;
+
   return (
     <Container>
-      <Head>
-        <Title>무슨무슨 데이트</Title>
-      </Head>
-      <Body>
+      <Body activeOpacity={0.8} onPress={onPress}>
+        <Head>
+          <Title>{data.name}</Title>
+          <Ionicons
+            name="arrow-forward"
+            size={20}
+            style={{ position: "absolute", right: 10 }}
+          />
+        </Head>
         <Image
-          source={{ uri: data.visits[0].photos[0].file }}
-          style={{ width: 150, height: 150 }}
-          blurRadius={4}
+          source={{ uri: GetThumbURI(representImage) }}
+          style={{ width: "100%", height: 250 }}
         ></Image>
-        <ImageInfo>
-          <View style={{ alignItems: "baseline" }}>
-            <ImageDesc>dfdfd</ImageDesc>
-          </View>
-        </ImageInfo>
       </Body>
-      <Tail></Tail>
+      <Tail>
+        <IconRating
+          onRating={null}
+          iconName={"md-medical"}
+          selectedColor={"#ea4335"}
+          defaultColor={"#dbdee1"}
+          iconSize={18}
+          ratingCount={3}
+          defaultValue={2}
+          disabled={true}
+        />
+        <Text>일시</Text>
+        <Text>장소</Text>
+        <Text>사진 몇 장</Text>
+      </Tail>
+      <Info>
+        <Ionicons
+          name="heart"
+          color={"tomato"}
+          size={16}
+          style={{ marginHorizontal: 5 }}
+        >
+          <Text>3</Text>
+        </Ionicons>
+        <Ionicons
+          name="chatbox-ellipses-outline"
+          color={"black"}
+          size={16}
+          style={{ marginHorizontal: 5 }}
+        >
+          <Text>3</Text>
+        </Ionicons>
+      </Info>
     </Container>
   );
 };

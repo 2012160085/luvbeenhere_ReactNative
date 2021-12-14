@@ -31,6 +31,7 @@ const Container = styled.View`
 `;
 
 function Date({ data }) {
+  console.log(`THIS IS DATA IN Date ${data}`);
   const fadeAnim = useRef(new Animated.Value(100)).current;
   const [navScrollable, setNavScrollable] = useState(false);
   const [show, setShow] = useState(true);

@@ -11,6 +11,7 @@ import { colors } from "../colors";
 import { Text } from "react-native";
 import { fontSet } from "../fonts";
 import { ts2DateStr } from "../util/DateHandle";
+import { GetThumbURI } from "../util/ThumbnailURI";
 
 const testUri = "https://picsum.photos/201"
 const ContentBubble = styled.TouchableOpacity`
@@ -123,7 +124,7 @@ const renderContent = (data, index, onItemClick) => {
           borderRadius: 25
         }}
         resizeMode="cover"
-        source={{ uri: data.photos[0].file }}
+        source={{ uri: GetThumbURI(data.photos[0].file,300) }}
       />
       <VisitInfoView>
         <VisitTitleText>{data.name}</VisitTitleText>

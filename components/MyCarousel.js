@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Dimensions, Image, Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList } from "react-native";
 const { width: windowWidth, height: windowHeight } = Dimensions.get("window");
 const slideList = Array.from({ length: 30 }).map((_, i) => {
   return {

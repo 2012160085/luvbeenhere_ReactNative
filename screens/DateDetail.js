@@ -1,79 +1,107 @@
-import React, { useEffect, useRef } from "react";
-import {
-  ActivityIndicator,
-  ScrollView,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import { gql, useQuery } from "@apollo/client";
-
-import ScreenLayout from "../components/ScreenLayout";
-import DateCover from "../components/DateCover";
+import React, { useState } from "react";
+import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import Swiper from "react-native-swiper";
-import styled from "styled-components";
+import DateCover from "../components/DateCover";
+import { gql, useQuery } from "@apollo/client";
+import ScreenLayout from "../components/ScreenLayout";
 import VisitDetail from "../components/VisitDetail";
-import DateReport from "../components/DateReport";
-import { FlatList } from "react-native-gesture-handler";
-import DateTitle from "../components/DateTitle";
-import Timeline from "../components/Timeline";
-import DateBriefMap from "../components/DateBriefMap"
 
-const keyExtractor = (item, index) => {
-  return `fl${index}`;
-};
-export default function DateDetail({ loading, data }) {
-  var DATA = [];
-  if (!loading) {
-    DATA = [0, 1, 2, ...data.seeDate.visits, 3];
+import DateDetailComp from "../components/DateDetailComp";
+const SEE_DATE = gql`
+  query ($id: Int!) {
+    seeDate(id: $id) {
+      id
+      name
+      datetime
+      visits {
+        id
+        name
+        place {
+          id
+          name
+          posX
+          posY
+        }
+        photos {
+          id
+          posX
+          posY
+          file
+          datetime
+        }
+        rating {
+          id
+          value
+        }
+        posX
+        posY
+        comment
+        rgeocode
+      }
+      couple {
+        id
+        user {
+          id
+          name
+          username
+          phone
+          avatar
+          createdAt
+          updatedAt
+        }
+      }
+      posX
+      posY
+      tag {
+        id
+        name
+      }
+      weatherTag {
+        id
+        name
+      }
+      price
+      isMine
+    }
   }
-  const FlatListRef = useRef();
-  const renderItem = ({ index, item }) => {
-
-    if (index === 0) {
-      return <DateTitle data={data.seeDate} />;
-    }
-    if (index === 1) {
-      return <Timeline data={data.seeDate.visits} onItemClick={onItemClick} />;
-    }
-    if (index === 2) {
-      return <View></View>;
-    }
-    if (index === DATA.length - 1) {
-      return <DateBriefMap data={data.seeDate.visits}/>
-    }
-    return <VisitDetail data={item} />;
-  };
-  const onItemClick = (e) => {
-    FlatListRef.current.scrollToIndex({ index: e + 3 });
-  };
-
-  return loading ? (
-    <View
-      style={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-      }}
-    >
-      <ActivityIndicator color="tomato" size={50} />
-    </View>
-  ) : (
-    <FlatList
-      ref={FlatListRef}
-      horizontal={false}
-      style={{ width: "100%", backgroundColor: "black" }}
-      pagingEnabled={false}
-      decelerationRate="normal"
-      onMomentumScrollEnd={(e) => {
-        console.log(e.nativeEvent);
-      }}
-      stickyHeaderIndices={[0, 2]}
-      overScrollMode="never"
-      renderItem={renderItem}
-      data={DATA}
-      keyExtractor={keyExtractor}
-    />
-  );
+`;
+const styles = StyleSheet.create({
+  wrapper: {},
+  slide1: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#9DD6EB",
+  },
+  slide2: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#97CAE5",
+  },
+  slide3: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#92BBD9",
+  },
+  text: {
+    color: "#fff",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+});
+export default function DateDetail({ route }) {
+  const screen = useWindowDimensions();
+  console.log(route.params.id);
+  const [contentStyle, setContentStyle] = useState({});
+  const { data, loading, refetch } = useQuery(SEE_DATE, {
+    variables: {
+      id: route.params.id,
+    },
+    fetchPolicy: "network-only",
+  });
+  
+  return <DateDetailComp data={data} loading={loading} />;
 }

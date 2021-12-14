@@ -20,10 +20,8 @@ import IconRating from "../components/IconRating";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import { manipulateAsync } from "expo-image-manipulator";
-import { useGlobalMutation } from "../hooks/useGlobalMutation";
-import { PostVisit } from "../hooks/postVisit";
 const CREATE_VISIT = gql`
-  mutation create_visit(
+  mutation (
     $name: String!
     $photoPosts: [PhotoPost]!
     $rating: Int
@@ -343,13 +341,23 @@ export default function UploadForm({ route, navigation }) {
   const toggleSwitch = () => {
     setIsPublic((previousState) => !previousState);
   };
-
   const HeaderRight = () => (
     <TouchableOpacity
       onPress={async () => {
-
+        const resizedPhotosPromise = photos.map((photo) => {
+          const option =
+            photo.width > photo.height ? { width: 1440 } : { height: 1440 };
+          return manipulateAsync(photo.localUri, [
+            {
+              resize: option,
+            },
+          ]);
+        });
+        const resizedPhotos = await Promise.all(resizedPhotosPromise);
+        console.log("____________________resizedPhotos_______________________");
+        console.log(resizedPhotos);
         const photoPosts = photos.map((photo, index) => {
-          return photoInput(photo, photos[index]);
+          return photoInput(photo, resizedPhotos[index]);
         });
         console.log("____________________photoPosts_______________________");
         console.log(photoPosts);
@@ -361,8 +369,9 @@ export default function UploadForm({ route, navigation }) {
           photoPosts,
         };
 
-        PostVisit({ query: CREATE_VISIT, variables });
-        navigation.navigate("FeedTab");
+        createVisit({
+          variables,
+        });
       }}
     >
       <HeaderRightText>다음</HeaderRightText>
@@ -381,7 +390,16 @@ export default function UploadForm({ route, navigation }) {
       ? route.params.file
       : [...route.params.file].reverse();
   const screen = useWindowDimensions();
+  const onCompleted = (e) => {
+    if (e.createVisit.ok) {
+      console.log("COMPLETE");
+    } else {
+    }
+  };
 
+  const [createVisit, { loading, error }] = useMutation(CREATE_VISIT, {
+    onCompleted,
+  });
   return (
     <KeyboardAwareScrollView
       extraHeight={20}

@@ -4,16 +4,17 @@ import { createStackNavigator } from "@react-navigation/stack";
 import TabsNav from "./TabsNav";
 import UploadNav from "./UploadNav";
 import UploadForm from "../screens/UploadForm";
+import DateDetailNav from "./DateDetailNav";
 
 const Stack = createStackNavigator();
 
 export default function LoggedInNav() {
   return (
-    <Stack.Navigator screenOptions={
-     {
-       presentation : "modal"
-     }
-    } >
+    <Stack.Navigator
+      screenOptions={{
+        presentation: "modal",
+      }}
+    >
       <Stack.Screen
         name="Tabs"
         options={{ headerShown: false }}
@@ -24,7 +25,11 @@ export default function LoggedInNav() {
         options={{ headerShown: false }}
         component={UploadNav}
       />
-
+      <Stack.Screen
+        name="Detail"
+        options={{ headerShown: false }}
+        component={DateDetailNav}
+      />
     </Stack.Navigator>
   );
 }

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import MapView from "react-native-map-clustering";
 import { Marker, AnimatedRegion, Animated, Polyline, Polygon } from "react-native-maps";
 
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import VisitMarker from "./VisitMarker";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components";
 import { fontSet } from "../fonts";
 
@@ -36,7 +36,7 @@ const BadgeText = styled.Text`
     font-family:${fontSet.Medium};
     font-size: 15px;
 `;
-const DateBriefMap = ({ data }) => {
+const DateBriefMap = ({ data, setTouchable }) => {
     const screen = useWindowDimensions();
     const mapRef = useRef()
     const [viewMode, setViewMode] = useState(1)
@@ -46,17 +46,16 @@ const DateBriefMap = ({ data }) => {
             longitude: visit.posY
         }
     })
-    console.log(locations);
 
     return (
         <View style={{ backgroundColor: "white" }}>
             <Title>위치 보기</Title>
             <MapView
+                onTouchStart={() => { setTouchable(false) }}
+                onTouchEndCapture={() => { setTouchable(true) }}
                 initialRegion={INITIAL_REGION}
                 style={{ height: 200, marginTop: 10, marginBottom: 5 }}
                 moveOnMarkerPress={true}
-                pitchEnabled={false}
-                scrollEnabled={false}
                 clusteringEnabled={false}
                 ref={mapRef}
                 onLayout={() => mapRef.current.fitToCoordinates(
@@ -84,16 +83,17 @@ const DateBriefMap = ({ data }) => {
                         </Marker>
                     );
                 })}
-                <Polyline 
+                <Polyline
                     coordinates={locations}
                     strokeWidth={2}
                     lineDashPattern={[1]}
                     strokeColor={"tomato"}
                 />
             </MapView>
-            <ScrollView
+            <FlatList
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
+                nestedScrollEnabled={true}
             >
                 <TouchableOpacity onPress={() => {
                     setViewMode(1 - viewMode)
@@ -133,7 +133,7 @@ const DateBriefMap = ({ data }) => {
                 })}
 
 
-            </ScrollView>
+            </FlatList>
         </View>
 
     );

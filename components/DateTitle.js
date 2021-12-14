@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, View } from "react-native";
+import { Image, useWindowDimensions, View } from "react-native";
 import {
   ScrollView,
   TouchableWithoutFeedback,
@@ -12,11 +12,14 @@ import { Text } from "react-native";
 import { fontSet } from "../fonts";
 import Timeline from "./Timeline";
 import IconRating from "./IconRating";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import { ts2DateStr } from "../util/DateHandle";
+import DateReport from "./DateReport";
+import DateBriefMap from "./DateBriefMap"
 const Container = styled.View`
   padding-vertical: 20px;
   background-color: #f8f8fa;
+  width: ${(props) => props.width}px;
 `;
 const TitleView = styled.View`
   display: flex;
@@ -49,11 +52,14 @@ const StarView = styled.View`
 `;
 
 const DateTitle = ({ data }) => {
-  const rates =  data.visits.filter((visit) => visit.rating);
-  const sumRate = rates.map((validRateVisit) => validRateVisit.rating.value).reduce((a, b) => a + b)
-  const meanRate = Math.round(sumRate/rates.length);
+  const screen = useWindowDimensions();
+  const rates = data.visits.filter((visit) => visit.rating);
+  const sumRate = rates
+    .map((validRateVisit) => validRateVisit.rating.value)
+    .reduce((a, b) => a + b, 0);
+  const meanRate = Math.round(sumRate / rates.length);
   return (
-    <Container>
+    <Container width={screen.width}>
       <TitleView>
         <DateDateText>{ts2DateStr(data?.datetime)}</DateDateText>
         <Ionicons name={"location"} size={14}>

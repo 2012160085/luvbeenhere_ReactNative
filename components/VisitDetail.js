@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Image, View } from "react-native";
 import {
-  FlatList,
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
@@ -22,12 +21,15 @@ import Carousel from "react-native-snap-carousel";
 import { useWindowDimensions } from "react-native";
 import IconRating from "./IconRating";
 import { ts2DateStr } from "../util/DateHandle";
+import { GetThumbURI } from "../util/ThumbnailURI";
 const carouselSize = 0.9;
 
 const Container = styled.View`
   width: ${(props) => props.width}px;
-  background-color: #f8f8fa;
-
+  background-color: white;
+`;
+const CommentView = styled.View`
+  min-height: 50px;
 `;
 const CommentText = styled.Text`
   font-family: ${fontSet.Medium}
@@ -53,8 +55,6 @@ const StarView = styled.View`
 const IconView = styled.View`
   display: flex;
   flex-direction: row;
-
-  justify-content: flex-end;
 `;
 const IconText = styled.Text`
   color: #8465ff;
@@ -67,21 +67,39 @@ const LabelView = styled.View`
 `;
 const VisitDetail = ({ data }) => {
   const screen = useWindowDimensions();
-  const minTime = Math.min(...data.photos.map((e) => {
-    return e.datetime
-  }));
+
   return (
     <Container width={screen.width}>
-      <View style={{ height: 350 }}>
-        <ImageBottomView>
-          <MaterialCommunityIcons name={"clock-time-one-outline"}>
-            <ImageInfoText>{ts2DateStr(minTime, "hm")}</ImageInfoText>
-          </MaterialCommunityIcons>
-          <Ionicons name={"location"}>
-            <ImageInfoText>서울시 노원구 공릉동</ImageInfoText>
-          </Ionicons>
-        </ImageBottomView>
-        <FlatList
+      <View>
+        <View
+          style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}
+        >
+          {data.photos.map((photo, index) => {
+            const width = index === 0 ? screen.width / 1.5 : screen.width / 3;
+            const height = index === 0 ? screen.width / 1.5 : screen.width / 3;
+            console.log("image");
+            console.log(photo.file);
+            console.log(GetThumbURI(photo.file, 1440));
+            console.log(GetThumbURI(photo.file, 600));
+            console.log(GetThumbURI(photo.file, 300));
+            return (
+              <View
+                key={photo.id}
+                style={{ width: width, height: width, padding: 1 }}
+              >
+                <Image
+                  resizeMode="cover"
+                  style={{ width: "100%", height: "100%" }}
+                  source={{
+                    uri:
+                      GetThumbURI(photo.file, index === 0 ? 600 : 300),
+                  }}
+                />
+              </View>
+            );
+          })}
+        </View>
+        {/* <FlatList
           horizontal={true}
           snapToInterval={screen.width}
           decelerationRate="fast"
@@ -101,7 +119,7 @@ const VisitDetail = ({ data }) => {
           }}
         >
 
-        </FlatList>
+        </FlatList> */}
       </View>
       <View
         style={{
@@ -112,40 +130,38 @@ const VisitDetail = ({ data }) => {
         }}
       >
         <View style={{ display: "flex", height: "100%" }}>
-          <StarView>
-            <IconRating
-              onRating={null}
-              iconName={"md-medical"}
-              selectedColor={"#ea4335"}
-              defaultColor={"#dbdee1"}
-              iconSize={18}
-              ratingCount={3}
-              defaultValue={data?.rating ? data.rating.value : 0}
-              disabled={true}
-            />
-          </StarView>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingVertical: 2,
+            }}
+          >
+            <Ionicons name={"location"} size={15}>
+              <Text>{data.rgeocode}</Text>
+            </Ionicons>
+            <IconView>
+              <MaterialCommunityIcons name="weather-rainy" size={20} />
+              <MaterialCommunityIcons name="weather-rainy" size={20} />
+              <MaterialCommunityIcons name="weather-rainy" size={20} />
+              <MaterialCommunityIcons name="weather-rainy" size={20} />
+            </IconView>
+          </View>
           <ScrollView style={{ flex: 1 }}>
-            <CommentText>
-              {data?.comment ? data.comment : "코멘트가 없습니다"}
-            </CommentText>
+            <CommentView>
+              <CommentText>
+                {data?.comment ? data.comment : "코멘트가 없습니다"}
+              </CommentText>
+            </CommentView>
           </ScrollView>
           <IconView>
-            <LabelView>
-              <MaterialCommunityIcons
-                name="weather-night"
-                size={20}
-                color={"black"}
-              />
-            </LabelView>
-            <LabelView>
-              <MaterialCommunityIcons name="weather-rainy" size={20} />
-            </LabelView>
-            <LabelView>
-              <MaterialCommunityIcons name="weather-windy" size={20} />
-            </LabelView>
-            <LabelView>
-              <Ionicons name="cafe-outline" size={21}></Ionicons>
-            </LabelView>
+            <Ionicons name="heart" color="tomato" size={15}>
+              <Text>3</Text>
+            </Ionicons>
+            <Ionicons name="chatbubble-ellipses-outline" size={15}>
+              <Text>2</Text>
+            </Ionicons>
           </IconView>
         </View>
       </View>

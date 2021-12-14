@@ -60,7 +60,6 @@ const VisitMapView = ({ initialRegion, data, loading }) => {
       {loading
         ? null
         : data.seeVisits.map((visit) => {
-            console.log(visit);
             return (
               <Marker
                 key={visit.id}

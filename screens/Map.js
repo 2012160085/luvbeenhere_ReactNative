@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import MapView from "react-native-map-clustering";
 import { Marker } from "react-native-maps";
@@ -7,6 +7,8 @@ import VisitCluster from "../components/VisitCluster";
 import VisitMarker from "../components/VisitMarker";
 import { gql, useQuery } from "@apollo/client";
 import VisitMapView from "../components/VisitMapView";
+import { uploadPromise } from "../global";
+
 
 const SEE_VISITS = gql`
 query{
@@ -42,7 +44,8 @@ const App = () => {
   const { data, loading, refetch, fetchMore } = useQuery(SEE_VISITS, {
     variables: {
 
-    }
+    },
+    fetchPolicy: "cache-and-network"
   });
 
   return (
