@@ -77,11 +77,7 @@ const VisitDetail = ({ data }) => {
           {data.photos.map((photo, index) => {
             const width = index === 0 ? screen.width / 1.5 : screen.width / 3;
             const height = index === 0 ? screen.width / 1.5 : screen.width / 3;
-            console.log("image");
-            console.log(photo.file);
-            console.log(GetThumbURI(photo.file, 1440));
-            console.log(GetThumbURI(photo.file, 600));
-            console.log(GetThumbURI(photo.file, 300));
+
             return (
               <View
                 key={photo.id}

@@ -46,7 +46,7 @@ const VisitMapView = ({ initialRegion, data, loading }) => {
     animateToRegion(coord);
   };
   const onPressMarker = (e, visitId) => {
-    console.log(visitId);
+
   };
   return (
     <MapView

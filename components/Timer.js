@@ -41,7 +41,7 @@ const Timer = ({ onComplete }, ref) => {
     const countdown = setInterval(() => {
       if (seconds > 0) {
         if(seconds === 1){
-          console.log("EXPIRED");
+       
           onComplete();
         }
         setSeconds(seconds - 1);

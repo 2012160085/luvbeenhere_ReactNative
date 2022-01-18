@@ -71,7 +71,7 @@ function MyCarousel() {
 
   // Use the index
   useEffect(() => {
-    console.log(index);
+
   }, [index]);
 
   return (

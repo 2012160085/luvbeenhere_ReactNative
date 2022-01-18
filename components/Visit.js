@@ -92,7 +92,7 @@ function Visit({
       ratio = ratio > 2 ? 2 : ratio;
       setImageHeight(ratio * (winDim.width - 10));
     });
-    console.log(imageHeight);
+ 
   }, [file]);
 
   return (

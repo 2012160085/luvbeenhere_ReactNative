@@ -48,11 +48,9 @@ const Info = styled.View`
 `;
 
 const DateFeed = ({ data, route, navigation }) => {
-  console.log(data);
+
   const onPress = () => {
-    console.log(data.id);
-    console.log(route);
-    console.log(navigation);
+
 
     navigation.navigate("Detail", {
       screen: "DateDetail",
@@ -62,8 +60,7 @@ const DateFeed = ({ data, route, navigation }) => {
       },
     });
   };
-  console.log(":::::::::::::::::::::::::::::::::::::::::::::::::::");
-  console.log(data);
+
   const representImage = data.visits[0].photos[0].file;
 
   return (

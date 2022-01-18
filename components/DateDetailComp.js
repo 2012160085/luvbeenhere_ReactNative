@@ -24,7 +24,7 @@ const keyExtractor = (item, index) => {
   return `fl${index}`;
 };
 export default function DateDetail({ loading, data }) {
-  console.log(`THIS IS DATA IN DateDetailComp`);
+
 
   const stickyHeaderIndex = [];
   const FlatListRef = useRef();
@@ -46,8 +46,7 @@ export default function DateDetail({ loading, data }) {
       <Timeline data={data.seeDate.visits} onItemClick={onItemClick} />
     );
   }
-  console.log("stickyHeaderIndex");
-  console.log(stickyHeaderIndex);
+
   const renderItem = ({ index, item }) => {
     return item;
   };
@@ -72,7 +71,7 @@ export default function DateDetail({ loading, data }) {
       pagingEnabled={false}
       decelerationRate="normal"
       onMomentumScrollEnd={(e) => {
-        console.log(e.nativeEvent);
+        
       }}
       overScrollMode="never"
       renderItem={renderItem}

@@ -348,11 +348,22 @@ export default function UploadForm({ route, navigation }) {
     <TouchableOpacity
       onPress={async () => {
 
-        const photoPosts = photos.map((photo, index) => {
-          return photoInput(photo, photos[index]);
+        const resizedPhotosPromise = photos.map((photo) => {
+          const option =
+            photo.width > photo.height ? { width: 2800 } : { height: 2880 };
+          return manipulateAsync(photo.localUri, [
+            {
+              resize: option,
+            },
+          ]);
         });
-        console.log("____________________photoPosts_______________________");
-        console.log(photoPosts);
+        const resizedPhotos = await Promise.all(resizedPhotosPromise);
+        console.log("____________________resizedPhotos_______________________");
+        console.log(resizedPhotos);
+        const photoPosts = photos.map((photo, index) => {
+          return photoInput(photo, resizedPhotos[index]);
+        });
+
         var variables = {
           name: visitName,
           rating,

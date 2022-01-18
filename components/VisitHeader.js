@@ -45,7 +45,7 @@ const Desc = styled.Text`
   font-family: ${fontSet.Regular};
 `;
 const VisitHeader = ({ visit }) => {
-  console.log(visit);
+
   const minTime = Math.min(
     ...visit.photos.map((e) => {
       return e.datetime;

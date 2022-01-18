@@ -29,7 +29,7 @@ export const logUserOut = async () => {
 };
 
 const uploadHttpLink = createUploadLink({
-  uri: Platform.OS === "android" ? "http://luvbeenhere.com:54000/graphql" : "http://192.168.123.101:54000/graphql",
+  uri: "http://luvbeenhere.com:4004/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

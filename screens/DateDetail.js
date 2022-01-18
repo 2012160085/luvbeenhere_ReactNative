@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
 });
 export default function DateDetail({ route }) {
   const screen = useWindowDimensions();
-  console.log(route.params.id);
+
   const [contentStyle, setContentStyle] = useState({});
   const { data, loading, refetch } = useQuery(SEE_DATE, {
     variables: {
