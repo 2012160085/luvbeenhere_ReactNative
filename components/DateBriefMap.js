@@ -2,9 +2,9 @@ import React, { forwardRef, useEffect, useRef, useState } from "react";
 import MapView from "react-native-map-clustering";
 import { Marker, AnimatedRegion, Animated, Polyline, Polygon } from "react-native-maps";
 
-import { ScrollView, Text, useWindowDimensions, View } from "react-native";
+import { FlatList, ScrollView, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import VisitMarker from "./VisitMarker";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+
 import styled from "styled-components";
 import { fontSet } from "../fonts";
 

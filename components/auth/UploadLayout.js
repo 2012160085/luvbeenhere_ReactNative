@@ -3,9 +3,10 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   TouchableWithoutFeedback,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+
 import styled from "styled-components/native";
 
 const Container = styled.View`

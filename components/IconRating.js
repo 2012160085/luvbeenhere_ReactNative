@@ -1,8 +1,8 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components";
-import { TouchableWithoutFeedback, Animated, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableWithoutFeedback, Animated, View, TouchableOpacity } from "react-native";
+
 
 const Container = styled.View`
   display: flex;

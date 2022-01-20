@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { Image, useWindowDimensions } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image, TouchableOpacity, useWindowDimensions } from "react-native";
+
 import { gql, useMutation } from "@apollo/client";
 
 const TOGGLE_LIKE_MUTATION = gql`

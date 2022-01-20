@@ -1,9 +1,6 @@
 import React from "react";
-import { Image, useWindowDimensions, View } from "react-native";
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { Image, ScrollView, useWindowDimensions, View } from "react-native";
+
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Badge } from "react-native-elements";
 import styled from "styled-components";

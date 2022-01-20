@@ -7,21 +7,9 @@ import {
   View,
 } from "react-native";
 import { gql, useQuery } from "@apollo/client";
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-  FontAwesome5,
-} from "@expo/vector-icons";
-import ScreenLayout from "./ScreenLayout";
-import DateCover from "./DateCover";
-import Swiper from "react-native-swiper";
+
 import styled from "styled-components";
-import VisitDetail from "./VisitDetail";
-import DateReport from "./DateReport";
-import { FlatList } from "react-native-gesture-handler";
-import DateTitle from "./DateTitle";
-import Timeline from "./Timeline";
-import DateBriefMap from "./DateBriefMap";
+
 import { ts2DateStr } from "../util/DateHandle";
 import { fontSet } from "../fonts";
 import IconRating from "./IconRating";

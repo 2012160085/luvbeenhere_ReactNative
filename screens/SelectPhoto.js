@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import * as MediaLibrary from "expo-media-library";
 import styled from "styled-components/native";
@@ -97,6 +97,13 @@ const NumberOnIconText = styled.Text`
   text-align: center;
   font-size: 13px;
 `;
+const MemoPhotoSelectItem = React.memo(PhotoSelectItem, (prevProps, nextProps) => (
+  prevProps.multiSelect === nextProps.multiSelect &&
+  prevProps.selected === nextProps.selected &&
+  prevProps.showing === nextProps.showing &&
+  prevProps.order === nextProps.order && 
+  prevProps.rerender === nextProps.rerender
+))
 export default function SelectPhoto({ navigation }) {
   const [ok, setOk] = useState(false);
   const [photos, setPhotos] = useState([]);
@@ -104,6 +111,7 @@ export default function SelectPhoto({ navigation }) {
   const [chosenPhoto, setChosenPhoto] = useState("");
   const [multiSelect, setMultiSelect] = useState(false);
   const [showingPhoto, setShowingPhoto] = useState("");
+  const [rerenderFlag, setRerenderFlag] = useState("");
   const changeSelectMode = () => {
     if (multiSelect) {
       setChosenPhoto(multiChosenPhoto[0]);
@@ -199,23 +207,27 @@ export default function SelectPhoto({ navigation }) {
       }
     }
   };
-
-  const renderItem = ({ item: photo }) => {
+  
+  const renderItem = useCallback(({ item: photo }) => {
     const photoIndex = multiSelect ? multiChosenPhoto.indexOf(photo) : -1;
     const selected = multiSelect ? photoIndex >= 0 : chosenPhoto === photo;
     const showing = showingPhoto === photo;
+    const rerender = rerenderFlag === photo.id
     return (
-      <PhotoSelectItem
+      <MemoPhotoSelectItem
         photo={photo}
+        onPressIn ={() => setRerenderFlag(photo.id)}
         onPress={() => choosePhoto(photo)}
         style={{ width: width / numColumns, height: width / numColumns }}
         multiSelect={multiSelect}
         selected={selected}
         order={photoIndex}
         showing={showing}
+        rerender={rerender}
       />
     );
-  };
+  },[multiChosenPhoto, choosePhoto]);
+
   return (
     <Container>
       <StatusBar hidden={false} />
@@ -224,6 +236,7 @@ export default function SelectPhoto({ navigation }) {
           <Image
             source={{ uri: showingPhoto?.uri }}
             style={{ width, height: "100%" }}
+            fadeDuration={100}
           />
         ) : null}
       </Top>
@@ -246,6 +259,7 @@ export default function SelectPhoto({ navigation }) {
           numColumns={numColumns}
           keyExtractor={(photo) => photo.id}
           renderItem={renderItem}
+          windowSize={4}
         />
       </Bottom>
     </Container>

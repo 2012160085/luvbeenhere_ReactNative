@@ -9,8 +9,9 @@ import {
   useWindowDimensions,
   View,
   Switch,
+  TouchableOpacity,
 } from "react-native";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+
 import styled from "styled-components/native";
 import { colors } from "../colors";
 import { Ionicons } from "@expo/vector-icons";

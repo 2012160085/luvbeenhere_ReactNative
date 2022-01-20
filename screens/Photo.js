@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { RefreshControl, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { RefreshControl, ScrollView, View } from "react-native";
+
 import Photo from "../components/Photo";
 import ScreenLayout from "../components/ScreenLayout";
 import { PHOTO_FRAGMENT } from "../fragments";

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import Swiper from "react-native-swiper";
-import DateCover from "../components/DateCover";
+
+
 import { gql, useQuery } from "@apollo/client";
-import ScreenLayout from "../components/ScreenLayout";
-import VisitDetail from "../components/VisitDetail";
+
 
 import DateDetailComp from "../components/DateDetailComp";
 const SEE_DATE = gql`

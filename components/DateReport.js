@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Image, View } from "react-native";
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+
 import {
   Ionicons,
   MaterialCommunityIcons,

@@ -1,6 +1,5 @@
 import React from "react";
 import { Image, View } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { Badge } from "react-native-elements";
 import styled from "styled-components";
@@ -25,12 +24,17 @@ const WhiteView = styled.View`
     z-index: 1;
     background-color: rgba(255,255,255,0.5);
 `;
-export default PhotoSelectItem = ({ photo, style, multiSelect, selected, order, onPress, showing }) => {
-    return <ImageContainer onPress={onPress}>
+
+const MemoImage = React.memo(Image, (prevProps, nextProps) => (
+    prevProps.source.uri === nextProps.source
+))
+export default PhotoSelectItem = ({ photo, style, multiSelect, selected, order, onPress, showing , onPressIn, rerender}) => {
+    console.log("PHOTO SELECT ITEM RERENDER");
+    return <ImageContainer onPress={onPress} onPressIn = {onPressIn}>
         <View>
             {showing ? <WhiteView /> : null}
 
-            <Image
+            <MemoImage
                 source={{ uri: photo.uri }}
                 style={style}
             />
