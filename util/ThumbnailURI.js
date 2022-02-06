@@ -1,4 +1,5 @@
 export const GetThumbURI = (uri, size) => {
+  return uri;
   const s3Url = "https://luvbeenhere-images.s3.ap-northeast-2.amazonaws.com/";
   const newUrl =
     "https://luvbeenhere-images-resized.s3.ap-northeast-2.amazonaws.com/";

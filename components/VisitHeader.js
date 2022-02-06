@@ -33,7 +33,6 @@ const Desc = styled.Text`
   font-family: ${fontSet.Regular};
 `;
 const VisitHeader = ({ visit }) => {
-
   const minTime = Math.min(
     ...visit.photos.map((e) => {
       return e.datetime;

@@ -351,7 +351,7 @@ export default function UploadForm({ route, navigation }) {
 
         const resizedPhotosPromise = photos.map((photo) => {
           const option =
-            photo.width > photo.height ? { width: 2800 } : { height: 2880 };
+            photo.width > photo.height ? { width: 1440 } : { height: 1440 };
           return manipulateAsync(photo.localUri, [
             {
               resize: option,

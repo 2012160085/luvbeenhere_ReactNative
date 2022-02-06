@@ -64,13 +64,13 @@ const LabelView = styled.View`
 `;
 const VisitDetail = ({ data }) => {
   const screen = useWindowDimensions();
-
   return (
     <Container width={screen.width}>
       <View>
         <View
           style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}
         >
+
           {data.photos.map((photo, index) => {
             const width = index === 0 ? screen.width / 1.5 : screen.width / 3;
             const height = index === 0 ? screen.width / 1.5 : screen.width / 3;

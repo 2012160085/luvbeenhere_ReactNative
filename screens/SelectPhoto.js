@@ -101,7 +101,7 @@ const MemoPhotoSelectItem = React.memo(PhotoSelectItem, (prevProps, nextProps) =
   prevProps.multiSelect === nextProps.multiSelect &&
   prevProps.selected === nextProps.selected &&
   prevProps.showing === nextProps.showing &&
-  prevProps.order === nextProps.order && 
+  prevProps.order === nextProps.order &&
   prevProps.rerender === nextProps.rerender
 ))
 export default function SelectPhoto({ navigation }) {
@@ -112,22 +112,33 @@ export default function SelectPhoto({ navigation }) {
   const [multiSelect, setMultiSelect] = useState(false);
   const [showingPhoto, setShowingPhoto] = useState("");
   const [rerenderFlag, setRerenderFlag] = useState("");
+  const [page, setPage] = useState(0);
   const changeSelectMode = () => {
     if (multiSelect) {
       setChosenPhoto(multiChosenPhoto[0]);
     }
     setMultiSelect(!multiSelect);
   };
-
+  const PREVIEW_PHOTO_COUNT_ON_PAGE = 80
   const getPhotos = async () => {
     const { assets: photos } = await MediaLibrary.getAssetsAsync({
-      first: 140,
+      first: PREVIEW_PHOTO_COUNT_ON_PAGE,
       sortBy: ["creationTime"],
     });
     setPhotos(photos);
     setChosenPhoto(photos[0]);
     setMultiChosenPhoto([photos[0]]);
     setShowingPhoto(photos[0]);
+  };
+  const getMorePhotos = async (after) => {
+    console.log(after);
+    const { assets } = await MediaLibrary.getAssetsAsync({
+      first: PREVIEW_PHOTO_COUNT_ON_PAGE,
+      sortBy: ["creationTime"],
+      after: Platform.OS === 'android' ? `${(page + 1) * PREVIEW_PHOTO_COUNT_ON_PAGE}` : lastItemID
+    });
+    setPage(page + 1)
+    setPhotos([...photos, ...assets])
   };
   const getPermissions = async () => {
     if (Platform.OS === "ios") {
@@ -207,7 +218,7 @@ export default function SelectPhoto({ navigation }) {
       }
     }
   };
-  
+
   const renderItem = useCallback(({ item: photo }) => {
     const photoIndex = multiSelect ? multiChosenPhoto.indexOf(photo) : -1;
     const selected = multiSelect ? photoIndex >= 0 : chosenPhoto === photo;
@@ -216,7 +227,7 @@ export default function SelectPhoto({ navigation }) {
     return (
       <MemoPhotoSelectItem
         photo={photo}
-        onPressIn ={() => setRerenderFlag(photo.id)}
+        onPressIn={() => setRerenderFlag(photo.id)}
         onPress={() => choosePhoto(photo)}
         style={{ width: width / numColumns, height: width / numColumns }}
         multiSelect={multiSelect}
@@ -226,7 +237,7 @@ export default function SelectPhoto({ navigation }) {
         rerender={rerender}
       />
     );
-  },[multiChosenPhoto, choosePhoto]);
+  }, [multiChosenPhoto, choosePhoto]);
 
   return (
     <Container>
@@ -260,6 +271,8 @@ export default function SelectPhoto({ navigation }) {
           keyExtractor={(photo) => photo.id}
           renderItem={renderItem}
           windowSize={4}
+          onEndReached={() => getMorePhotos(photos[photos.length - 1])}
+          onEndReachedThreshold={2}
         />
       </Bottom>
     </Container>
