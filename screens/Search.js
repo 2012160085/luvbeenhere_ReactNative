@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { FlatList, Text, TouchableOpacity } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import ScreenLayout from "../components/ScreenLayout";
 import styled from "styled-components/native";
 import { TextInput } from "../components/auth/AuthShared";
@@ -51,15 +51,15 @@ query searchVisits(
 `;
 
 const Top = styled.View`
-  background-color: white;
+
 `;
 const SearchBar = styled.View`
   display: flex;
   flex-direction: row;
+
 `
 const SearchOptions = styled.View`
-  display: flex;
-  flex-direction: row;
+  flex: 1;
 `
 const LocationButton = styled.TouchableOpacity`
   padding: 5px;
@@ -82,7 +82,10 @@ const Bottom = styled.View`
   flex: 1;
   background-color: white;
 `;
+const MapPopup = styled.View`
+  display: absolute;
 
+`
 const VisitCard = ({ item }) => {
   console.log("RENDERED");
   return (
@@ -103,6 +106,7 @@ const keyExtractor = (item, index) => {
 };
 export default function Search() {
   const [visits, setVisits] = useState([])
+  const [mapShown, setMapShown] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const onCompleted = (data) => {
     if (data['searchVisits']["ok"]) {
@@ -146,13 +150,15 @@ export default function Search() {
             <Ionicons name={"search"} size={20} style={{ color: "white", margin: 10 }} />
           </SearchButton>
         </SearchBar>
-        <SearchOptions>
-            <LocationButton>
-              <ButtonText>지역</ButtonText>
-            </LocationButton>
-            <CaptionText>서울시 노원구</CaptionText>
-        </SearchOptions>
-        <SearchMap></SearchMap>
+        <View style={{ display: "flex", flexDirection: "row" }}>
+          <LocationButton onPress={() => setMapShown(!mapShown)}>
+            <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+              <Ionicons name={"filter"} color={"white"} size={12} />
+              <ButtonText> 필터</ButtonText>
+            </View>
+          </LocationButton>
+        </View>
+        {mapShown ? <SearchMap></SearchMap> : null}
       </Top>
       <Bottom>
         <FlatList
