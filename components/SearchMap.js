@@ -5,25 +5,29 @@ import styled from "styled-components/native";
 const Container = styled.View`
     display:flex;
     flex-direction: row;
+    width: 234px;
+    background-color: white;
 `
 const Column = styled.View`
     display:flex;
     flex-direction: column;
 `
 const EmptyCell = styled.View`
-    width: 40px;
-    height: 36px;
+    width: 35px;
+    height: 30px;
     background-color: white;
-    margin: 3px;
+    margin: 2px;
 `
 const ColorCell = styled.TouchableOpacity`
-    width: 40px;
-    height: ${(props) => (props.space ? props.space : 1) * 42 - 6}px;
+    width: 35px;
+    height: ${(props) => (props.space ? props.space : 1) * (30+4) - 4}px;
     background-color: ${(props) => props.color};
-    margin: 3px;
+    margin: 2px;
+    border-radius: 5px;
+    align-items: center;
 `
 const CellText = styled.Text`
-    font-size: 12px;
+    font-size: 11px;
     color: ${(props) => props.color};
 `
 function SearchMap() {

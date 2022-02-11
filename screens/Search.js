@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { Button, FlatList, Text, TouchableOpacity, View } from "react-native";
 import ScreenLayout from "../components/ScreenLayout";
 import styled from "styled-components/native";
 import { TextInput } from "../components/auth/AuthShared";
@@ -8,7 +8,13 @@ import { gql, useLazyQuery } from "@apollo/client"
 import VisitHeader from "../components/VisitHeader";
 import VisitDetail from "../components/VisitDetail";
 import SearchMap from "../components/SearchMap";
-
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
 const SEARCH_VISITS = gql`
 query searchVisits(
   $query: String
@@ -104,7 +110,7 @@ const renderItem = ({ item, index }) => {
 const keyExtractor = (item, index) => {
   return `visit-result-${item['id']}`;
 };
-export default function Search() {
+const SearchScreen = ({ navigation }) => {
   const [visits, setVisits] = useState([])
   const [mapShown, setMapShown] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -151,7 +157,7 @@ export default function Search() {
           </SearchButton>
         </SearchBar>
         <View style={{ display: "flex", flexDirection: "row" }}>
-          <LocationButton onPress={() => setMapShown(!mapShown)}>
+          <LocationButton onPress={() => navigation.openDrawer()}>
             <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
               <Ionicons name={"filter"} color={"white"} size={12} />
               <ButtonText> 필터</ButtonText>
@@ -170,5 +176,69 @@ export default function Search() {
       </Bottom>
 
     </ScreenLayout>
+  );
+}
+const CustomDrawerContent = (props) => {
+  return (
+    <View style={{ padding: 10 }}>
+      <View style={{ display: "flex", flexDirection: "row-reverse", alignItems: "center" }}>
+        <TouchableOpacity
+          onPress={() => props.navigation.toggleDrawer()}
+          style={{ backgroundColor: "#42719e", padding: 1, borderRadius: 4 }}
+        >
+          <Ionicons name={"close"} color={"white"} size={20} />
+        </TouchableOpacity>
+      </View>
+      <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <LocationButton>
+          <View style={{ display: "flex", flexDirection: "row", alignItems: "center", paddingRight: 5 }}>
+            <Ionicons name={"location"} color={"white"} size={12} />
+            <ButtonText> 지역</ButtonText>
+          </View>
+        </LocationButton>
+        <Text>    강북구</Text>
+      </View>
+      <View style={{ alignItems: "center" }}>
+        <SearchMap ></SearchMap>
+      </View>
+
+    </View>
+  );
+}
+function Feed({ navigation }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Feed Screen</Text>
+      <Button title="Open drawer" onPress={() => navigation.openDrawer()} />
+      <Button title="Toggle drawer" onPress={() => navigation.toggleDrawer()} />
+    </View>
+  );
+}
+
+function Notifications() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Notifications Screen</Text>
+    </View>
+  );
+}
+const Drawer = createDrawerNavigator(
+
+);
+export default function Search() {
+  return (
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        drawerPosition: 'right', drawerStyle: {
+          width: "100%"
+        }
+      }}
+    >
+      <Drawer.Screen name="SearchScreen" component={SearchScreen} options={{
+        headerShown: false
+      }} />
+      <Drawer.Screen name="Notifications" component={Notifications} />
+    </Drawer.Navigator>
   );
 }
