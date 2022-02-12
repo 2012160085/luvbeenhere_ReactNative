@@ -112,7 +112,7 @@ const keyExtractor = (item, index) => {
 };
 const SearchScreen = ({ navigation }) => {
   const [visits, setVisits] = useState([])
-  const [mapShown, setMapShown] = useState(false)
+
   const [searchQuery, setSearchQuery] = useState("")
   const onCompleted = (data) => {
     if (data['searchVisits']["ok"]) {
@@ -164,7 +164,6 @@ const SearchScreen = ({ navigation }) => {
             </View>
           </LocationButton>
         </View>
-        {mapShown ? <SearchMap></SearchMap> : null}
       </Top>
       <Bottom>
         <FlatList
@@ -179,6 +178,7 @@ const SearchScreen = ({ navigation }) => {
   );
 }
 const CustomDrawerContent = (props) => {
+  const [mapShown, setMapShown] = useState(false)
   return (
     <View style={{ padding: 10 }}>
       <View style={{ display: "flex", flexDirection: "row-reverse", alignItems: "center" }}>
@@ -190,27 +190,27 @@ const CustomDrawerContent = (props) => {
         </TouchableOpacity>
       </View>
       <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-        <LocationButton>
+        <LocationButton onPress={() => setMapShown(!mapShown)}>
           <View style={{ display: "flex", flexDirection: "row", alignItems: "center", paddingRight: 5 }}>
             <Ionicons name={"location"} color={"white"} size={12} />
             <ButtonText> 지역</ButtonText>
           </View>
         </LocationButton>
-        <Text>    강북구</Text>
       </View>
-      <View style={{ alignItems: "center" }}>
-        <SearchMap ></SearchMap>
+      {!mapShown ? null :
+        <View style={{ alignItems: "center" }}>
+          <SearchMap selected={[0]} ></SearchMap>
+        </View>
+      }
+      <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <LocationButton onPress={() => setMapShown(!mapShown)}>
+          <View style={{ display: "flex", flexDirection: "row", alignItems: "center", paddingRight: 5 }}>
+            <Ionicons name={"location"} color={"white"} size={12} />
+            <ButtonText> </ButtonText>
+          </View>
+        </LocationButton>
       </View>
 
-    </View>
-  );
-}
-function Feed({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Feed Screen</Text>
-      <Button title="Open drawer" onPress={() => navigation.openDrawer()} />
-      <Button title="Toggle drawer" onPress={() => navigation.toggleDrawer()} />
     </View>
   );
 }
@@ -226,9 +226,10 @@ const Drawer = createDrawerNavigator(
 
 );
 export default function Search() {
+
   return (
     <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      drawerContent={(props) => <CustomDrawerContent {...{ ...props }} />}
       screenOptions={{
         drawerPosition: 'right', drawerStyle: {
           width: "100%"

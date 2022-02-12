@@ -30,14 +30,15 @@ const CellText = styled.Text`
     font-size: 11px;
     color: ${(props) => props.color};
 `
-function SearchMap() {
+function SearchMap({selected}) {
+
     return (
         <Container>
             <Column>
                 <EmptyCell />
                 <EmptyCell />
                 <EmptyCell />
-                <ColorCell color={"#A66658"} >
+                <ColorCell color={0 in selected ? "#A66658" : "grey"} >
                     <CellText color="white">
                         강서{'\n'}양천
                     </CellText>
