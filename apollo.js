@@ -54,7 +54,9 @@ export const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        seeFeed: offsetLimitPagination(),
+        seeFeed: {
+          keyArgs: ["query","sorting","weather","area1","area2","ts"]
+        }
       },
     },
   },
