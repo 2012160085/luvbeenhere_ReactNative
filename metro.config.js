@@ -1,10 +1,7 @@
-const { getDefaultConfig } = require("metro-config");
-const { resolver: defaultResolver } = getDefaultConfig.getDefaultValues();
-exports.resolver = {
-  ...defaultResolver,
-  sourceExts: [
-    ...defaultResolver.sourceExts,
-    "cjs",
-    "cjs.js",
-  ],
-};
+const { getDefaultConfig } = require('@expo/metro-config');
+
+const defaultConfig = getDefaultConfig(__dirname);
+
+defaultConfig.resolver.assetExts.push('cjs');
+defaultConfig.resolver.assetExts.push('cjs.js');
+module.exports = defaultConfig;
