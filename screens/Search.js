@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
-import { BackHandler, Button, FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { BackHandler, Button, FlatList, Text, TouchableOpacity, View } from "react-native";
 import ScreenLayout from "../components/ScreenLayout";
 import styled from "styled-components/native";
 import { TextInput } from "../components/auth/AuthShared";
