@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'expo-jenkins-slave:latest'
-            args '-u root:root -v /aab:/root/.m2'
+            args '-u root:root'
         }
     }
     environment {
@@ -13,7 +13,7 @@ pipeline {
         stage('setting environmnet') {
             steps {
                 script {
-                    sh """echo ${AWS_CRED} | base64 -d > $HOME/.aws/credentials"""
+                    sh """echo ${AWS_CRED} | base64 -d > ./.aws/credentials"""
                 }
             }
         }
