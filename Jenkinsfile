@@ -13,6 +13,7 @@ pipeline {
         stage('setting environmnet') {
             steps {
                 script {
+                    sh 'mkdir ./.aws'
                     sh """echo ${AWS_CRED} | base64 -d > ./.aws/credentials"""
                 }
             }
