@@ -7,18 +7,11 @@ pipeline {
     }
     environment {
         EXPO_TOKEN=credentials('expo-credential')
-        AWS_CRED=credentials('aws_admin')
         ANDROID_SDK_ROOT="/android-sdk/"
+        AWS_ACCESS_KEY_ID="AKIAQK2BT2OVKVGGWNPS"
+        AWS_SECRET_ACCESS_KEY=credentials('aws_cred_AKIAQK2BT2OVKVGGWNPS')
     }
     stages {
-        stage('setting environmnet') {
-            steps {
-                script {
-                    sh 'mkdir ./.aws'
-                    sh """echo ${AWS_CRED} | base64 -d > ./.aws/credentials"""
-                }
-            }
-        }
         stage('install dependencies') {
             steps {
                 script {
@@ -37,7 +30,8 @@ pipeline {
         stage('send artifact') {
             steps {
                 script {
-                    sh 'aws s3 cp . s3://my-bucket/path --include "*.aab"'
+                    filename = sh(returnStdout: true, script: 'ls | grep "\\.aab"').trim()
+                    sh """aws s3 cp  $filename s3://luvbeenhere-expo-builds/dev/"""
                 }
             }
         }
