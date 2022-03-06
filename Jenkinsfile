@@ -30,8 +30,9 @@ pipeline {
         stage('send artifact') {
             steps {
                 script {
-                    filename = sh(returnStdout: true, script: 'ls | grep "\\.aab"').trim()
+                    filename = sh(returnStdout: true, script: 'ls | grep "\\.apk"').trim()
                     sh """aws s3 cp  $filename s3://luvbeenhere-expo-builds/dev/"""
+                    sh """curl -d "title=[BUILD SUCCESS] lbh-RN #${BUILD_NUMBER}&content=https://luvbeenhere-expo-builds.s3.ap-northeast-2.amazonaws.com/dev/${filename}" -X POST http://luvbeenhere.com:5000/send"""
                 }
             }
         }
