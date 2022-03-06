@@ -23,7 +23,7 @@ pipeline {
         stage('eas build') {
             steps {
                 script {
-                    sh 'eas build --platform android --local'
+                    sh 'eas build --platform android --local --profile preview'
                 }
             }
         }
