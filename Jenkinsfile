@@ -9,7 +9,8 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    sh 'npm install'
+                    sh 'ls'
+                    sh 'pwd'
                 }
             }
         }
