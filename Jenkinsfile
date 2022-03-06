@@ -2,7 +2,7 @@
 pipeline {
     agent {
         docker {
-            label 'expo-jenkins-slave:latest'
+            image 'expo-jenkins-slave:latest'
         }
     }
     stages {
