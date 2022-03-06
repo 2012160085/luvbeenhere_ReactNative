@@ -8,6 +8,7 @@ pipeline {
     environment {
         EXPO_TOKEN=credentials('expo-credential')
         AWS_CRED=credentials('aws_admin')
+        ANDROID_SDK_ROOT="/android-sdk/"
     }
     stages {
         stage('setting environmnet') {
