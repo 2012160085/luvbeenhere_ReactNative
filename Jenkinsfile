@@ -1,6 +1,6 @@
 /* groovylint-disable NestedBlockDepth */
 pipeline {
-    agent { label 'expo-docker-slave'}
+    agent { docker 'expo-docker-slave'}
     stages {
         stage('Build Image') {
             steps {
