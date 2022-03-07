@@ -1,8 +1,8 @@
+
 import React, { useCallback, useRef, useState } from "react";
 import { BackHandler, Button, FlatList, Text, TouchableOpacity, View } from "react-native";
 import ScreenLayout from "../components/ScreenLayout";
 import styled from "styled-components/native";
-import { TextInput } from "../components/auth/AuthShared";
 import { Ionicons } from "@expo/vector-icons";
 import { gql, useLazyQuery } from "@apollo/client"
 import VisitHeader from "../components/VisitHeader";
@@ -101,7 +101,7 @@ const H2Text = styled.Text`
 const SearchBar = styled.View`
   display: flex;
   flex-direction: row;
-
+  align-items: center;
 `
 const SearchOptions = styled.View`
   flex: 1;
@@ -132,11 +132,13 @@ const BadgeText = styled.Text`
 const CaptionText = styled.Text`
   color: black;
 `
+const SearchTextInput = styled.TextInput`
+  border-bottom-width: 1px;
+  border-color: #42719e;
+  height: 30px;
+`
 const SearchButton = styled.TouchableOpacity`
-  margin-left: 10px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  background-color: #42719e;
+
 `
 const Bottom = styled.View`
   flex: 1;
@@ -155,12 +157,12 @@ const VisitCard = ({ item }) => {
     </>
   )
 }
+
 const SortOrderBadgeComponent = ({ text, selected, onPress }) => {
   return (
     <SortOrderBadge selected={selected} onPressIn={onPress} activeOpacity={0.8} >
       <BadgeText selected={selected}>{text}</BadgeText>
     </SortOrderBadge>
-
   )
 }
 const MemoVisitCard = React.memo(VisitCard, (prevProps, nextProps) => (
@@ -205,7 +207,7 @@ const SearchScreen = ({ navigation, route: { params } }) => {
     <ScreenLayout >
       <Top>
         <SearchBar>
-          <TextInput
+          <SearchTextInput
             placeholder="한강, 실내 등 키워드로 검색해보세요"
             autoCapitalize="none"
             returnKeyType="done"
@@ -223,16 +225,17 @@ const SearchScreen = ({ navigation, route: { params } }) => {
               })
             }}
           >
-            <Ionicons name={"search"} size={20} style={{ color: "white", margin: 10 }} />
+            <Ionicons name={"search"} size={20} style={{ color: "#42719e", margin: 10 }} />
           </SearchButton>
-        </SearchBar>
-        <View style={{ display: "flex", flexDirection: "row" }}>
           <LocationButton onPress={() => navigation.openDrawer()}>
             <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name={"filter"} color={"white"} size={12} />
+              <Ionicons name={"funnel"} color={"white"} size={12} />
               <ButtonText> 필터</ButtonText>
             </View>
           </LocationButton>
+        </SearchBar>
+        <View style={{ display: "flex", flexDirection: "row" }}>
+
         </View>
       </Top>
       <Bottom>
@@ -248,7 +251,6 @@ const SearchScreen = ({ navigation, route: { params } }) => {
   );
 }
 const CustomDrawerContent = (props) => {
-
   const [areaMode, setAreaMode] = useState(0)
   const [sortOrder, setSortOrder] = useState(0)
   const [weather, setWeather] = useState(0)
@@ -282,7 +284,7 @@ const CustomDrawerContent = (props) => {
           props.navigation.is
           props.navigation.closeDrawer();
           return true;
-        }else{
+        } else {
           return false;
         }
       };
@@ -316,7 +318,7 @@ const CustomDrawerContent = (props) => {
             props.navigation.closeDrawer();
           }}
         >
-          <Ionicons name={"close"} color={"white"} size={20} />
+          <Ionicons name={"close-outline"} color={"#1E1E1E"} size={26} />
         </TouchableOpacity>
       </CardView>
       <CardView paddingBottom={1}>
@@ -372,8 +374,6 @@ const CustomDrawerContent = (props) => {
           </CardView>)
           : null
       }
-
-
       <CardView paddingBottom={1}>
         <View style={{ flexDirection: "row" }}>
           <H2Text>날씨</H2Text>
@@ -429,11 +429,10 @@ export default function Search() {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...{ ...props, }} />}
       screenOptions={{
-        drawerPosition: 'right',
-        drawerStyle: {
+        drawerPosition: 'right', drawerStyle: {
           width: "100%",
           overflow: "visible"
-        },
+        }
 
       }}
 
