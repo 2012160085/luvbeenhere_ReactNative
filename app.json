@@ -2,7 +2,7 @@
   "expo": {
     "name": "luvbeenhere",
     "slug": "luvbeenhere",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -20,9 +20,16 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.luvbeenhere",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBZKCOUn6vhgiK47mpRzwiL6HC1eJPwR1I"
+        }
       }
     },
     "web": {
