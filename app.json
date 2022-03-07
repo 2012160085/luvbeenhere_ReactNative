@@ -20,7 +20,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,7 +28,7 @@
       "package": "com.luvbeenhere",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyBZKCOUn6vhgiK47mpRzwiL6HC1eJPwR1I"
+          "apiKey": "__GOOGLE_MAP_API_KEY__"
         }
       }
     },

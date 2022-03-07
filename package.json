@@ -2,6 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --port 9085",
+    "start_prd": "expo start --port 9085 --no-dev" ,
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",

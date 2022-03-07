@@ -10,6 +10,7 @@ pipeline {
         ANDROID_SDK_ROOT="/android-sdk/"
         AWS_ACCESS_KEY_ID="AKIAQK2BT2OVKVGGWNPS"
         AWS_SECRET_ACCESS_KEY=credentials('aws_cred_AKIAQK2BT2OVKVGGWNPS')
+        GOOGLE_ANDROID_MAP_API_KEY=credentials('google_android_map_api_key')
     }
     stages {
         stage('install dependencies') {
@@ -20,22 +21,28 @@ pipeline {
                 }
             }
         }
-        stage('eas build') {
+        stage('set credentials') {
             steps {
                 script {
-                    sh 'eas build --platform android --local --profile preview'
+                    sh """sed -i 's/__GOOGLE_MAP_API_KEY__/${GOOGLE_ANDROID_MAP_API_KEY}/g' app.json"""
                 }
             }
         }
-        stage('send artifact') {
+        stage('eas build') {
             steps {
                 script {
-                    filename = sh(returnStdout: true, script: 'ls | grep "\\.apk"').trim()
-                    sh """aws s3 cp  $filename s3://luvbeenhere-expo-builds/dev/ --acl public-read"""
-                    sh """curl -d "title=[BUILD SUCCESS] lbh-RN #${BUILD_NUMBER}&content=https://luvbeenhere-expo-builds.s3.ap-northeast-2.amazonaws.com/dev/${filename}&filename=${filename}" -X POST http://luvbeenhere.com:5000/send"""
+                    sh 'expo build:android -t app-bundle'
                 }
             }
         }
     }
-    post { cleanup { cleanWs() } }
+    post {
+        cleanup { cleanWs() }
+        success {
+            sh """curl -d "title=[배포성공] lbh-RN #${BUILD_NUMBER}&content=${BUILD_URL}" -X POST http://luvbeenhere.com:5000/send"""
+        }
+        failure {
+            sh """curl -d "title=[배포실패] lbh-RN #${BUILD_NUMBER}&content=${BUILD_URL}" -X POST http://luvbeenhere.com:5000/send"""
+        }
+    }
 }
